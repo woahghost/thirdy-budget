@@ -1,0 +1,2896 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Thirdy's Budget - M3 Expressive</title>
+
+    <!-- Google Fonts for Material 3 Expressive Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <!-- Tailwind CSS & Vue 3 CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        'm3-sm': '12px',
+                        'm3-md': '20px',
+                        'm3-lg': '28px',
+                        'm3-xl': '36px',
+                        'm3-full': '9999px',
+                    },
+                    colors: {
+                        navy: {
+                            50: '#f0f4f9',
+                            100: '#dbe4f0',
+                            200: '#bacde3',
+                            600: '#1d4ed8',
+                            800: '#1e3a8a',
+                            900: '#0f172a',
+                            950: '#080d1a',
+                        },
+                        dlsu: {
+                            50: '#f0f7f2',
+                            100: '#dcebe0',
+                            200: '#b8d8c0',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#004D25',
+                            900: '#03381c',
+                        },
+                        mustard: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            950: '#451a03',
+                        },
+                        surface: {
+                            base: '#f4f8f5',
+                            container: '#ebf3ec',
+                            high: '#e1ebe2',
+                            highest: '#d4e2d6',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        [v-cloak] {
+            display: none !important;
+        }
+
+        /* Material 3 Expressive Scalloped Badge Shape */
+        .scallop-shape {
+            clip-path: polygon(
+                50% 0%, 63% 8%, 76% 3%, 85% 15%, 97% 18%, 98% 32%, 
+                100% 46%, 95% 59%, 96% 73%, 86% 83%, 78% 94%, 64% 94%, 
+                50% 100%, 36% 94%, 22% 94%, 14% 83%, 4% 73%, 5% 59%, 
+                0% 46%, 2% 32%, 3% 18%, 15% 15%, 24% 3%, 37% 8%
+            );
+        }
+
+        /* Asymmetric Whimsical M3 Expressive Card Shapes */
+        .m3-expressive-card {
+            border-radius: 28px 28px 10px 28px;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .m3-expressive-card-alt {
+            border-radius: 10px 28px 28px 28px;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .m3-expressive-btn {
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .m3-expressive-btn:active {
+            transform: scale(0.92);
+        }
+
+        .m3-dock {
+            background: rgba(235, 243, 236, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 9999px;
+            box-shadow: 0 16px 40px -8px rgba(15, 23, 42, 0.18);
+            border: 1.5px solid rgba(255, 255, 255, 0.85);
+        }
+
+        .modal-blur {
+            backdrop-filter: blur(12px);
+            background-color: rgba(15, 23, 42, 0.55);
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-thumb { background: #b8d8c0; border-radius: 9999px; }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.2); }
+        }
+        .pulse-dot { animation: pulseGlow 2s infinite ease-in-out; }
+    </style>
+</head>
+<body class="h-full bg-surface-base text-navy-900 font-sans antialiased selection:bg-dlsu-100 selection:text-dlsu-800">
+
+<div id="app" v-cloak class="min-h-full flex flex-col pb-36">
+
+    <!-- CLEAN COHESIVE M3E HEADER BAR -->
+    <header class="px-3 sm:px-6 pt-3 pb-2.5 sticky top-0 z-30 bg-surface-base/95 backdrop-blur-md border-b border-dlsu-100">
+        <div class="max-w-7xl mx-auto space-y-2.5">
+            
+            <!-- Row 1: Brand & Status -->
+            <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-10 h-10 bg-navy-900 text-mustard-400 scallop-shape flex items-center justify-center font-display font-black text-xl shadow-xs shrink-0">
+                        <span class="material-symbols-outlined text-xl text-mustard-400">account_balance_wallet</span>
+                    </div>
+                    <div>
+                        <h1 class="text-lg sm:text-2xl font-display font-black tracking-tight text-navy-900 leading-none">
+                            Thirdy's Budget
+                        </h1>
+                        <div class="mt-1 flex items-center gap-2">
+                            <span class="inline-flex items-center gap-1.5 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-dlsu-100 text-dlsu-800 border border-dlsu-200">
+                                <span class="w-1.5 h-1.5 rounded-full bg-dlsu-600 pulse-dot"></span>
+                                <span>Saved {{ lastSavedTime }}</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side Header Controls: Segmented Undo/Redo + Tools Launcher -->
+                <div class="flex items-center gap-1.5">
+                    
+                    <!-- Segmented Undo / Redo Pill -->
+                    <div class="flex items-center bg-surface-container p-1 rounded-full border border-dlsu-200 shadow-inner">
+                        <button @click="undo" :disabled="!canUndo"
+                                :class="[canUndo ? 'text-navy-900 hover:bg-navy-100 active:scale-90' : 'text-slate-300 cursor-not-allowed']"
+                                class="p-1.5 sm:px-2.5 sm:py-1 rounded-full flex items-center gap-1 font-display font-extrabold text-xs transition-all"
+                                title="Undo (Ctrl+Z)">
+                            <span class="material-symbols-outlined text-base">undo</span>
+                            <span class="hidden md:inline">Undo</span>
+                        </button>
+
+                        <button @click="redo" :disabled="!canRedo"
+                                :class="[canRedo ? 'text-navy-900 hover:bg-navy-100 active:scale-90' : 'text-slate-300 cursor-not-allowed']"
+                                class="p-1.5 sm:px-2.5 sm:py-1 rounded-full flex items-center gap-1 font-display font-extrabold text-xs transition-all"
+                                title="Redo (Ctrl+Y)">
+                            <span class="material-symbols-outlined text-base">redo</span>
+                            <span class="hidden md:inline">Redo</span>
+                        </button>
+                    </div>
+
+                    <!-- Quick Tools & Backup Sheet Launcher -->
+                    <button @click="showToolsSheet = true" 
+                            class="m3-expressive-btn p-2.5 bg-navy-900 text-white rounded-full hover:bg-navy-950 flex items-center justify-center shadow-xs"
+                            title="Open Backup, CSV & Quick Tools">
+                        <span class="material-symbols-outlined text-lg text-mustard-400">settings</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Row 2: COHESIVE PRIMARY ACTION BUTTONS -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+                
+                <!-- Primary Spend CTA -->
+                <button @click="openExpenseModal" 
+                        class="m3-expressive-btn px-4 py-2.5 bg-dlsu-800 hover:bg-dlsu-900 text-white rounded-full font-display font-black text-xs sm:text-sm flex items-center gap-1.5 shadow-sm shrink-0">
+                    <span class="material-symbols-outlined text-lg text-mustard-300">shopping_cart</span>
+                    <span>💸 Spend</span>
+                </button>
+
+                <!-- Bonus / OT Injection CTA -->
+                <button @click="openBonusModal" 
+                        class="m3-expressive-btn px-4 py-2.5 bg-mustard-500 hover:bg-mustard-600 text-navy-950 rounded-full font-display font-black text-xs sm:text-sm flex items-center gap-1.5 shadow-sm shrink-0">
+                    <span class="material-symbols-outlined text-lg">add_card</span>
+                    <span>+ Bonus / OT</span>
+                </button>
+
+                <!-- New Payday Cycle CTA -->
+                <button @click="openNewCycleModal" 
+                        class="m3-expressive-btn px-4 py-2.5 bg-navy-900 hover:bg-navy-950 text-white rounded-full font-display font-black text-xs sm:text-sm flex items-center gap-1.5 shadow-sm shrink-0">
+                    <span class="material-symbols-outlined text-lg text-mustard-400">payments</span>
+                    <span>🌱 New Payday</span>
+                </button>
+
+                <!-- Quick Forecast Jump -->
+                <button @click="currentTab = 'gauge'" 
+                        class="m3-expressive-btn px-3.5 py-2.5 bg-surface-container hover:bg-navy-100 text-navy-900 rounded-full font-display font-black text-xs flex items-center gap-1 border border-dlsu-200 shrink-0">
+                    <span class="material-symbols-outlined text-base text-mustard-600">trending_up</span>
+                    <span>Forecast</span>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <main class="max-w-7xl w-full mx-auto px-3 sm:px-6 space-y-5 mt-3">
+
+        <!-- TOP EXPRESSIVE FINANCIAL HERO BANNER -->
+        <section class="space-y-4">
+            
+            <div class="m3-expressive-card p-4 sm:p-6 border border-dlsu-200 bg-gradient-to-r from-dlsu-50 via-surface-container to-mustard-50 shadow-xs flex flex-wrap items-center justify-between gap-4">
+                <div class="flex flex-wrap items-center gap-4 sm:gap-8">
+                    
+                    <!-- Current Liquid Cash Available -->
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-12 h-12 rounded-2xl bg-dlsu-800 text-white scallop-shape flex items-center justify-center shadow-xs shrink-0">
+                            <span class="material-symbols-outlined text-2xl text-mustard-200">account_balance_wallet</span>
+                        </div>
+                        <div>
+                            <div class="text-[10px] font-display font-black uppercase tracking-wider text-dlsu-800">Current Liquid Cash Available</div>
+                            <div class="text-2xl sm:text-3xl font-display font-black text-navy-900">₱{{ formatMoney(totalLiquidRemaining) }}</div>
+                            <div class="text-[10px] text-slate-500 font-extrabold">LandBank + GoTyme + MariBank</div>
+                        </div>
+                    </div>
+
+                    <div class="hidden md:block w-px h-10 bg-dlsu-200"></div>
+
+                    <!-- Locked Pag-IBIG MP2 Wealth -->
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-12 h-12 rounded-2xl bg-mustard-600 text-white scallop-shape flex items-center justify-center shadow-xs shrink-0">
+                            <span class="material-symbols-outlined text-2xl">lock</span>
+                        </div>
+                        <div>
+                            <div class="text-[10px] font-display font-black uppercase tracking-wider text-mustard-800">Pag-IBIG MP2 (Locked Growth)</div>
+                            <div class="text-2xl sm:text-3xl font-display font-black text-navy-900">₱{{ formatMoney(netCategoryTotals.MP2) }}</div>
+                            <div class="text-[10px] text-mustard-800 font-extrabold">🔒 5-Year Fixed Growth Asset</div>
+                        </div>
+                    </div>
+
+                    <div class="hidden lg:block w-px h-10 bg-dlsu-200"></div>
+
+                    <!-- Projected Next Cutoff Liquid Cash -->
+                    <div class="flex items-center gap-3 bg-navy-100/90 px-4 py-2.5 rounded-2xl border border-navy-200">
+                        <div class="w-9 h-9 rounded-xl bg-navy-900 text-white flex items-center justify-center shadow-xs shrink-0">
+                            <span class="material-symbols-outlined text-lg text-mustard-500">trending_up</span>
+                        </div>
+                        <div>
+                            <div class="text-[10px] font-display font-black uppercase tracking-wider text-navy-800">Upcoming Cutoff Forecast</div>
+                            <div class="text-xl sm:text-2xl font-display font-black text-navy-950">₱{{ formatMoney(projectedNextCutoffLiquid) }}</div>
+                            <div class="text-[9px] font-extrabold text-navy-700">Unspent Cash + Next Planned Salary</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <button @click="currentTab = 'gauge'" class="w-full sm:w-auto px-4 py-2.5 bg-navy-900 hover:bg-navy-950 text-white rounded-full font-display font-black text-xs flex items-center justify-center gap-1.5 shadow-xs transition-all">
+                        <span class="material-symbols-outlined text-base text-mustard-400">tune</span>
+                        <span>Plan Upcoming Cutoff Days</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- AT-A-GLANCE INSTITUTION CARDS -->
+            <div class="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                
+                <!-- 1. LANDBANK (ALLOWANCE) -->
+                <div class="m3-expressive-card p-4 sm:p-5 border border-dlsu-200 bg-dlsu-50/80 flex flex-col justify-between relative overflow-hidden">
+                    <div class="space-y-2.5">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-9 h-9 rounded-2xl bg-dlsu-800 text-white flex items-center justify-center shadow-xs">
+                                    <span class="material-symbols-outlined text-lg">account_balance</span>
+                                </div>
+                                <div>
+                                    <h2 class="font-display font-black text-xs sm:text-sm text-navy-900">LandBank</h2>
+                                    <span class="text-[10px] font-bold text-slate-500">Allowance Account</span>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-dlsu-200 text-dlsu-900">Liquid</span>
+                        </div>
+
+                        <div>
+                            <div class="text-[10px] font-display font-black uppercase text-slate-500">Liquid Available</div>
+                            <div class="text-2xl sm:text-3xl font-display font-black tracking-tight mt-0.5"
+                                 :class="[bankAllocations.landBank.remaining < 0 ? 'text-rose-600' : 'text-navy-900']">
+                                ₱{{ formatMoney(bankAllocations.landBank.remaining) }}
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-1 pt-1">
+                            <span class="px-2 py-0.5 rounded-full bg-dlsu-100 text-dlsu-900 text-[10px] font-extrabold flex items-center gap-1">
+                                💵 Allowance: ₱{{ formatMoney(netCategoryTotals.Allowance) }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 pt-2.5 border-t border-dlsu-200 flex items-center justify-between text-[10px] font-bold text-slate-500">
+                        <span>Total Avail: ₱{{ formatMoney(bankAllocations.landBank.budgeted) }}</span>
+                        <span class="text-rose-600">Spent: -₱{{ formatMoney(bankAllocations.landBank.spent) }}</span>
+                    </div>
+                </div>
+
+                <!-- 2. GOTYME BANK (PERSONAL SAVINGS & FUTURE SAVINGS) -->
+                <div class="m3-expressive-card-alt p-4 sm:p-5 border border-navy-200 bg-navy-50/80 flex flex-col justify-between relative overflow-hidden">
+                    <div class="space-y-2.5">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-9 h-9 rounded-2xl bg-navy-900 text-white flex items-center justify-center shadow-xs">
+                                    <span class="material-symbols-outlined text-lg text-mustard-400">credit_card</span>
+                                </div>
+                                <div>
+                                    <h2 class="font-display font-black text-xs sm:text-sm text-navy-900">GoTyme Bank</h2>
+                                    <span class="text-[10px] font-bold text-slate-500">Personal & Future Savings</span>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-navy-200 text-navy-900">Liquid</span>
+                        </div>
+
+                        <div>
+                            <div class="text-[10px] font-display font-black uppercase text-slate-500">Liquid Available</div>
+                            <div class="text-2xl sm:text-3xl font-display font-black tracking-tight mt-0.5"
+                                 :class="[bankAllocations.goTyme.remaining < 0 ? 'text-rose-600' : 'text-navy-900']">
+                                ₱{{ formatMoney(bankAllocations.goTyme.remaining) }}
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-1 pt-1">
+                            <span class="px-2 py-0.5 rounded-full bg-navy-100 text-navy-900 text-[10px] font-extrabold">
+                                🐷 Personal: ₱{{ formatMoney(netCategoryTotals.PersonalSaving) }}
+                            </span>
+                            <span class="px-2 py-0.5 rounded-full bg-navy-100 text-navy-900 text-[10px] font-extrabold">
+                                🚀 Future: ₱{{ formatMoney(netCategoryTotals.FutureSavings) }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 pt-2.5 border-t border-navy-200 flex items-center justify-between text-[10px] font-bold text-slate-500">
+                        <span>Total Avail: ₱{{ formatMoney(bankAllocations.goTyme.budgeted) }}</span>
+                        <span class="text-rose-600">Spent: -₱{{ formatMoney(bankAllocations.goTyme.spent) }}</span>
+                    </div>
+                </div>
+
+                <!-- 3. MARIBANK (MAJOR DATE, UTILITIES, EXPENSES, PHONE) -->
+                <div class="m3-expressive-card p-4 sm:p-5 border border-mustard-200 bg-mustard-50/80 flex flex-col justify-between relative overflow-hidden">
+                    <div class="space-y-2.5">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-9 h-9 rounded-2xl bg-mustard-600 text-white flex items-center justify-center shadow-xs">
+                                    <span class="material-symbols-outlined text-lg">storefront</span>
+                                </div>
+                                <div>
+                                    <h2 class="font-display font-black text-xs sm:text-sm text-navy-900">MariBank</h2>
+                                    <span class="text-[10px] font-bold text-slate-500">Bills & General Spending</span>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-mustard-200 text-mustard-900">Liquid</span>
+                        </div>
+
+                        <div>
+                            <div class="text-[10px] font-display font-black uppercase text-slate-500">Liquid Available</div>
+                            <div class="text-2xl sm:text-3xl font-display font-black tracking-tight mt-0.5"
+                                 :class="[bankAllocations.mariBank.remaining < 0 ? 'text-rose-600' : 'text-navy-900']">
+                                ₱{{ formatMoney(bankAllocations.mariBank.remaining) }}
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-1 pt-1">
+                            <span class="px-1.5 py-0.5 rounded-full bg-mustard-100 text-mustard-900 text-[9px] font-extrabold">💖 ₱{{ formatMoney(netCategoryTotals.MajorDate) }}</span>
+                            <span class="px-1.5 py-0.5 rounded-full bg-mustard-100 text-mustard-900 text-[9px] font-extrabold">⚡ ₱{{ formatMoney(netCategoryTotals.Utilities) }}</span>
+                            <span class="px-1.5 py-0.5 rounded-full bg-mustard-100 text-mustard-900 text-[9px] font-extrabold">🛍️ ₱{{ formatMoney(netCategoryTotals.Expenses) }}</span>
+                            <span class="px-1.5 py-0.5 rounded-full bg-mustard-100 text-mustard-900 text-[9px] font-extrabold">📱 ₱{{ formatMoney(netCategoryTotals.Phone) }}</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 pt-2.5 border-t border-mustard-200 flex items-center justify-between text-[10px] font-bold text-slate-500">
+                        <span>Total Avail: ₱{{ formatMoney(bankAllocations.mariBank.budgeted) }}</span>
+                        <span class="text-rose-600">Spent: -₱{{ formatMoney(bankAllocations.mariBank.spent) }}</span>
+                    </div>
+                </div>
+
+                <!-- 4. PAG-IBIG MP2 (5-YEAR FIXED GROWING LOCKED ASSET) -->
+                <div class="m3-expressive-card-alt p-4 sm:p-5 border-2 border-mustard-400 bg-mustard-100/70 flex flex-col justify-between relative overflow-hidden">
+                    <div class="space-y-2.5">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-9 h-9 rounded-2xl bg-navy-900 text-mustard-400 flex items-center justify-center shadow-xs">
+                                    <span class="material-symbols-outlined text-lg">lock</span>
+                                </div>
+                                <div>
+                                    <h2 class="font-display font-black text-xs sm:text-sm text-navy-900">Pag-IBIG MP2</h2>
+                                    <span class="text-[10px] font-bold text-slate-500">Fixed Government Savings</span>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-mustard-200 text-mustard-950">🔒 Locked</span>
+                        </div>
+
+                        <div>
+                            <div class="text-[10px] font-display font-black uppercase text-mustard-800">Total Accumulated Growth</div>
+                            <div class="text-2xl sm:text-3xl font-display font-black text-navy-900 tracking-tight mt-0.5">
+                                ₱{{ formatMoney(bankAllocations.mp2.remaining) }}
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-1 pt-1">
+                            <span class="px-2 py-0.5 rounded-full bg-mustard-200 text-mustard-950 text-[10px] font-extrabold">
+                                📈 Deposit Only • Non-Spendable
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 pt-2.5 border-t border-mustard-300 flex items-center justify-between text-[10px] font-bold text-slate-500">
+                        <span>Total Contribution: ₱{{ formatMoney(bankAllocations.mp2.budgeted) }}</span>
+                        <span class="text-dlsu-800 font-black">5-Year Fixed</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TAB 1: GRANULAR DAILY CUTOFF SHEET & OT LEDGER -->
+        <div v-if="currentTab === 'table'" class="space-y-5">
+
+            <!-- BONUS & OT INCOME LEDGER CARD -->
+            <section class="m3-expressive-card p-4 sm:p-6 border-2 border-mustard-400 bg-gradient-to-br from-mustard-50 via-surface-container to-mustard-100/50 space-y-4 shadow-xs">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b pb-3 border-mustard-200">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-10 h-10 rounded-2xl bg-mustard-600 text-white scallop-shape flex items-center justify-center shadow-xs">
+                            <span class="material-symbols-outlined text-xl">payments</span>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h2 class="font-display font-black text-base sm:text-lg text-navy-900">Bonus & Overtime Income Ledger</h2>
+                                <span class="px-2.5 py-0.5 rounded-full bg-mustard-200 text-mustard-950 font-display font-extrabold text-[10px]">
+                                    {{ extraIncomes.length }} {{ extraIncomes.length === 1 ? 'Entry' : 'Entries' }}
+                                </span>
+                            </div>
+                            <p class="text-[10px] sm:text-xs text-slate-600 font-bold">Track, edit, or undo extra cash injections (night diff, incentives, side hustle, OT pay)</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <button @click="openBonusModal" class="m3-expressive-btn px-3.5 py-2 bg-mustard-600 hover:bg-mustard-700 text-white rounded-full font-display font-black text-xs flex items-center gap-1 shadow-xs">
+                            <span class="material-symbols-outlined text-base">add_circle</span>
+                            <span>+ Add Bonus / OT Injection</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div v-if="extraIncomes.length === 0" class="py-6 text-center space-y-2 bg-white/80 rounded-3xl border border-mustard-200 p-4">
+                    <span class="material-symbols-outlined text-3xl text-mustard-500">payments</span>
+                    <p class="text-xs font-display font-bold text-slate-600">No extra OT or bonus income added yet for this cutoff.</p>
+                    <p class="text-[10px] text-slate-400">Click "+ Add Bonus / OT Injection" to log extra cash into any category.</p>
+                </div>
+
+                <!-- OT/Bonus Active Entries Grid -->
+                <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    <div v-for="item in extraIncomes" :key="item.id"
+                         class="bg-white p-3.5 rounded-2xl border border-mustard-200 shadow-2xs flex items-center justify-between gap-3 hover:border-mustard-500 transition-all">
+                        
+                        <div class="space-y-1 min-w-0 flex-1">
+                            <div class="flex items-center gap-1.5">
+                                <span class="px-2 py-0.5 rounded-md bg-mustard-100 text-mustard-900 text-[9px] font-extrabold uppercase tracking-wider">
+                                    {{ item.date || 'Active Cutoff' }}
+                                </span>
+                                <span class="text-[10px] font-extrabold text-slate-500 flex items-center gap-0.5 truncate">
+                                    <span>{{ categoryEmojis[item.allocation] }}</span>
+                                    <span class="truncate">{{ formatCatName(item.allocation) }}</span>
+                                </span>
+                            </div>
+
+                            <div class="font-display font-black text-sm text-navy-900 truncate">
+                                {{ item.title }}
+                            </div>
+
+                            <div class="text-xs font-display font-black text-mustard-700">
+                                +₱{{ formatMoney(item.amount) }}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-1 shrink-0 border-l pl-2 border-slate-100">
+                            <button @click="openEditBonusModal(item)" title="Edit OT / Bonus entry" 
+                                    class="p-1.5 rounded-xl bg-slate-100 text-navy-800 hover:bg-navy-100 transition-all">
+                                <span class="material-symbols-outlined text-base">edit</span>
+                            </button>
+                            <button @click="promptDeleteBonus(item)" title="Delete OT / Bonus entry (Undoable with Ctrl+Z)" 
+                                    class="p-1.5 rounded-xl bg-slate-100 text-rose-600 hover:bg-rose-100 transition-all">
+                                <span class="material-symbols-outlined text-base">delete</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-2 flex items-center justify-between text-[10px] font-extrabold text-mustard-900 border-t border-mustard-200">
+                    <span>Total Injected OT & Bonus Income:</span>
+                    <span class="font-display font-black text-sm text-mustard-800">+₱{{ formatMoney(totalExtraIncome) }}</span>
+                </div>
+            </section>
+
+            <!-- PER-CATEGORY ROLLOVER / STARTING BALANCE CARD -->
+            <section class="m3-expressive-card-alt p-4 sm:p-6 border-2 border-dlsu-300 bg-dlsu-50/70 space-y-4 shadow-xs">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b pb-3 border-dlsu-200">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-xl bg-dlsu-800 text-white flex items-center justify-center">
+                            <span class="material-symbols-outlined text-base">tune</span>
+                        </div>
+                        <div>
+                            <h2 class="font-display font-black text-sm sm:text-base text-navy-900">Per-Category Rollover / Starting Balance</h2>
+                            <p class="text-[10px] text-slate-500 font-bold">Input leftover cash carried over from previous cutoffs per category</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button @click="zeroAllRollovers" class="text-xs font-bold px-3 py-1.5 rounded-full bg-rose-100 text-rose-700 hover:bg-rose-600 hover:text-white transition-all flex items-center gap-1">
+                            <span class="material-symbols-outlined text-sm">remove_done</span> Zero All
+                        </button>
+
+                        <button @click="autoApplyCarryoverFromPrevious" class="text-xs font-bold px-3.5 py-1.5 rounded-full bg-navy-900 text-white hover:bg-navy-950 transition-all flex items-center gap-1 shadow-xs">
+                            <span class="material-symbols-outlined text-sm text-mustard-400">history</span> Auto-Carryover Unspent
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 8-Category Rollover Input Cards Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5">
+                    <div v-for="catKey in categoryKeys" :key="catKey" 
+                         class="p-2.5 sm:p-3 bg-white rounded-2xl border border-dlsu-200 space-y-1.5 flex flex-col justify-between shadow-xs hover:border-navy-300 transition-all">
+                        
+                        <div class="text-[10px] font-extrabold text-slate-500 uppercase flex items-center justify-between">
+                            <span class="flex items-center gap-1 truncate">
+                                <span>{{ categoryEmojis[catKey] }}</span>
+                                <span class="truncate">{{ formatCatName(catKey) }}</span>
+                            </span>
+                        </div>
+
+                        <div>
+                            <label class="text-[9px] font-bold text-slate-400 block mb-0.5">Rollover (₱)</label>
+                            <div class="flex items-center bg-surface-container px-2 py-1 rounded-xl border border-slate-300">
+                                <span class="text-xs text-slate-400 font-bold mr-1">₱</span>
+                                <input type="number" step="0.01" v-model.number="categoryRollovers[catKey]" 
+                                       @focus="pushHistorySnapshot"
+                                       @change="pushHistorySnapshot"
+                                       class="w-full min-w-0 bg-transparent font-display font-black text-xs sm:text-sm text-navy-900 outline-none">
+                            </div>
+                        </div>
+
+                        <div class="text-[9px] font-extrabold pt-1.5 border-t border-slate-100 space-y-0.5">
+                            <div class="flex justify-between text-slate-400">
+                                <span>Daily:</span>
+                                <span>₱{{ formatMoney(baseCategoryTotals[catKey] + bonusCategoryTotals[catKey]) }}</span>
+                            </div>
+                            <div class="flex justify-between text-dlsu-800">
+                                <span>Avail:</span>
+                                <span>₱{{ formatMoney(finalCategoryTotals[catKey]) }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CUTOFF RULE SELECTOR & DATE CONTROLS -->
+            <section class="m3-expressive-card p-4 sm:p-6 border border-dlsu-200 bg-white shadow-xs space-y-4">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    
+                    <!-- Preset Rule Switcher -->
+                    <div class="space-y-2">
+                        <div class="text-xs font-display font-extrabold uppercase tracking-wider text-navy-800 flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-base">tune</span>
+                            Select Workdays Cutoff Rule
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <button v-for="presetKey in ['10', '11', '12', '13', 'custom']" :key="presetKey"
+                                    @click="selectPreset(presetKey)"
+                                    :class="[selectedPreset === presetKey ? 'bg-navy-900 text-white font-black scale-105 shadow-xs' : 'bg-surface-container text-slate-700 hover:bg-navy-100']"
+                                    class="px-3.5 py-2 rounded-2xl text-xs font-display font-bold flex items-center gap-1.5 transition-all">
+                                <span v-if="presetKey !== 'custom'">{{ presetKey }} Days</span>
+                                <span v-else>Custom</span>
+                                <span v-if="selectedPreset === presetKey" class="material-symbols-outlined text-sm text-mustard-400">check_circle</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Date Range Controls -->
+                    <div class="flex flex-wrap items-center gap-2.5 bg-surface-container p-2.5 rounded-3xl border border-dlsu-200">
+                        <div class="flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-dlsu-800 text-lg">calendar_today</span>
+                            <div class="flex flex-col">
+                                <span class="text-[9px] font-extrabold uppercase text-slate-400">Start Date</span>
+                                <input type="date" v-model="startDate" @change="promptAndRegenerateDates" class="bg-white border border-slate-300 rounded-xl px-2 py-0.5 text-xs font-bold text-navy-900 outline-none">
+                            </div>
+                        </div>
+                        <span class="text-slate-400 font-black">→</span>
+                        <div class="flex flex-col">
+                            <span class="text-[9px] font-extrabold uppercase text-slate-400">End Date</span>
+                            <input type="date" v-model="endDate" @change="promptAndRegenerateDates" class="bg-white border border-slate-300 rounded-xl px-2 py-0.5 text-xs font-bold text-navy-900 outline-none">
+                        </div>
+                        <div class="text-xs font-display font-extrabold text-navy-900 bg-navy-100 px-3 py-1.5 rounded-2xl ml-auto">
+                            {{ daysList.length }} Days
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Batch Action Buttons -->
+                <div class="pt-3 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex flex-wrap items-center gap-1.5">
+                        <span class="text-[10px] font-display font-extrabold text-slate-400 uppercase tracking-wider mr-1">Batch Fill:</span>
+                        
+                        <button @click="batchSetWeekdays('OFFICE')" class="px-2.5 py-1 bg-dlsu-100 text-dlsu-900 rounded-full text-xs font-bold flex items-center gap-1 hover:scale-105 transition-all">
+                            🏢 Weekdays = Office
+                        </button>
+                        
+                        <button @click="batchSetWeekdays('WFH')" class="px-2.5 py-1 bg-navy-100 text-navy-900 rounded-full text-xs font-bold flex items-center gap-1 hover:scale-105 transition-all">
+                            🏠 Weekdays = WFH
+                        </button>
+
+                        <button @click="batchSetWeekends('OT')" class="px-2.5 py-1 bg-mustard-100 text-mustard-900 rounded-full text-xs font-bold flex items-center gap-1 hover:scale-105 transition-all">
+                            ⚡ Weekends = OT
+                        </button>
+
+                        <button @click="batchSetWeekends('OFF')" class="px-2.5 py-1 bg-rose-100 text-rose-800 rounded-full text-xs font-bold flex items-center gap-1 hover:scale-105 transition-all">
+                            🚫 Weekends = OFF (₱0 Unpaid)
+                        </button>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-1.5 text-[10px] font-extrabold">
+                        <span class="px-2 py-0.5 rounded-full bg-dlsu-100 text-dlsu-900">🏢 Office: {{ officeDaysCount }}</span>
+                        <span class="px-2 py-0.5 rounded-full bg-navy-100 text-navy-900">🏠 WFH: {{ wfhDaysCount }}</span>
+                        <span class="px-2 py-0.5 rounded-full bg-purple-100 text-purple-900">🌴 Leave: {{ leaveDaysCount }}</span>
+                        <span class="px-2 py-0.5 rounded-full bg-mustard-100 text-mustard-900">⚡ OT: {{ otDaysCount }}</span>
+                        <span class="px-2 py-0.5 rounded-full bg-slate-200 text-slate-700">🚫 Unpaid OFF: {{ offDaysCount }}</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CATEGORY NET STATUS SUMMARY GRID -->
+            <section class="m3-expressive-card-alt p-4 sm:p-6 space-y-3 border border-dlsu-200 bg-white shadow-xs">
+                <div class="flex items-center justify-between border-b pb-2.5 border-slate-200">
+                    <h2 class="text-sm font-display font-black flex items-center gap-2 text-navy-900">
+                        <span class="material-symbols-outlined text-dlsu-800 text-lg">donut_large</span>
+                        Category Net Balance Summary & Equation
+                    </h2>
+                    <span class="text-[10px] font-bold text-slate-500">Base + Rollover + OT/Bonus - Spent = Net Available</span>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5">
+                    <div v-for="cat in categoryKeys" :key="cat" 
+                         :class="[cat === 'MP2' ? 'border-2 border-mustard-400 bg-mustard-50' : 'bg-surface-container']"
+                         class="p-3 rounded-2xl flex flex-col justify-between space-y-1.5">
+                        <div>
+                            <div class="flex items-center justify-between text-xs font-bold text-slate-500">
+                                <span class="flex items-center gap-1 truncate">
+                                    <span>{{ categoryEmojis[cat] }}</span>
+                                    <span class="truncate">{{ formatCatName(cat) }}</span>
+                                </span>
+                            </div>
+
+                            <div class="text-sm sm:text-base font-display font-black mt-1.5"
+                                 :class="[netCategoryTotals[cat] < 0 ? 'text-rose-600' : 'text-navy-900']">
+                                ₱{{ formatMoney(netCategoryTotals[cat]) }}
+                                <span class="text-[9px] font-bold block" :class="[cat === 'MP2' ? 'text-mustard-800' : 'text-slate-400']">
+                                    {{ cat === 'MP2' ? '🔒 Locked Asset' : 'Net Available' }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- EXPLICIT 4-PART EQUATION BREAKDOWN -->
+                        <div class="text-[9px] font-semibold text-slate-500 space-y-0.5 pt-1.5 border-t border-slate-200">
+                            <div class="flex justify-between">
+                                <span>Base Daily:</span> 
+                                <span class="font-bold text-slate-800">₱{{ formatMoney(baseCategoryTotals[cat]) }}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>+ Rollover:</span> 
+                                <span class="font-bold text-navy-800">+₱{{ formatMoney(categoryRollovers[cat]) }}</span>
+                            </div>
+                            <div class="flex justify-between text-mustard-800">
+                                <span>+ OT/Bonus:</span> 
+                                <span class="font-bold">+₱{{ formatMoney(bonusCategoryTotals[cat]) }}</span>
+                            </div>
+                            <div class="flex justify-between" :class="[cat === 'MP2' ? 'text-slate-400' : 'text-rose-600']">
+                                <span>- Spent:</span> 
+                                <span class="font-bold">{{ cat === 'MP2' ? '🔒 Lock' : '-₱' + formatMoney(spentPerCategory[cat]) }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- GRANULAR DAILY CUTOFF TABLE -->
+            <section class="m3-expressive-card p-4 sm:p-6 space-y-3 border border-dlsu-200 bg-white shadow-xs overflow-hidden">
+                <div class="flex items-center justify-between border-b pb-2.5 border-slate-200">
+                    <h3 class="text-xs sm:text-sm font-display font-black flex items-center gap-2 text-navy-900">
+                        <span class="material-symbols-outlined text-navy-800 text-lg">table_chart</span>
+                        Granular Daily Cutoff Allocation Sheet
+                    </h3>
+                    <span class="text-[10px] text-slate-500 font-bold">Edits support Undo / Redo with Ctrl+Z</span>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse min-w-[920px]">
+                        <thead>
+                            <tr class="border-b border-slate-200 text-slate-500 font-display font-extrabold uppercase tracking-wider bg-surface-container">
+                                <th class="py-2.5 px-2.5 w-28">Date</th>
+                                <th class="py-2.5 px-2.5 w-36">Day Status</th>
+                                <th v-for="catKey in categoryKeys" :key="catKey" class="py-2.5 px-2">
+                                    {{ categoryEmojis[catKey] }} {{ formatCatName(catKey) }}
+                                </th>
+                                <th class="py-2.5 px-2.5 text-right">Daily Total</th>
+                                <th class="py-2.5 px-2.5 text-center w-12">Copy</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 font-medium">
+                            <tr v-for="day in daysList" :key="day.dateStr" 
+                                :class="[
+                                    day.type === 'OFF' ? 'bg-slate-100 opacity-60' : '',
+                                    day.type === 'OT' ? 'bg-mustard-50/80' : '',
+                                    day.type === 'LEAVE' ? 'bg-purple-50' : '',
+                                    day.type === 'WFH' ? 'bg-navy-50/80' : ''
+                                ]"
+                                class="hover:bg-slate-100/80 transition-colors">
+                                
+                                <td class="py-2.5 px-2.5 font-display font-black text-navy-900">
+                                    <div>{{ day.dateDisplay }}</div>
+                                    <div class="text-[9px] text-slate-400 font-semibold uppercase">{{ day.weekdayName }}</div>
+                                </td>
+
+                                <td class="py-2.5 px-2.5">
+                                    <select v-model="day.type" @change="onDayTypeChange(day)" 
+                                            :class="getDayTypeBadgeStyle(day.type)"
+                                            class="text-xs font-display font-extrabold rounded-xl px-2.5 py-1 cursor-pointer border-0 outline-none focus:ring-2 focus:ring-navy-800 shadow-xs">
+                                        <option value="OFFICE">🏢 Office Day</option>
+                                        <option value="WFH">🏠 WFH Day</option>
+                                        <option value="LEAVE">🌴 On Leave (Paid)</option>
+                                        <option value="OT">⚡ Overtime</option>
+                                        <option value="OFF">🚫 OFF (Unpaid ₱0)</option>
+                                    </select>
+                                </td>
+
+                                <td v-for="catKey in categoryKeys" :key="catKey" class="py-2.5 px-1.5">
+                                    <div class="relative flex items-center">
+                                        <span class="text-slate-400 mr-0.5 text-[10px]">₱</span>
+                                        <input type="number" step="1" v-model.number="day.categories[catKey]" 
+                                               @input="onCategoryInput(day, catKey)"
+                                               @change="pushHistorySnapshot"
+                                               :disabled="day.type === 'OFF' || day.lockedCats[catKey]"
+                                               :class="[
+                                                    day.type === 'OFF' ? 'bg-transparent text-slate-400 cursor-not-allowed' :
+                                                    day.lockedCats[catKey] ? 'bg-slate-200 font-bold' : 'bg-white border border-slate-300'
+                                               ]"
+                                               class="w-14 min-w-0 px-1 py-0.5 text-xs font-bold rounded-lg text-right focus:outline-none focus:ring-2 focus:ring-navy-800">
+                                        <button v-if="day.type !== 'OFF'" @click="toggleCatLock(day, catKey)" 
+                                                :title="day.lockedCats[catKey] ? 'Unlock category' : 'Lock category amount during auto-balance'"
+                                                class="ml-0.5 text-slate-400 hover:text-navy-800">
+                                            <span class="material-symbols-outlined text-[14px]">{{ day.lockedCats[catKey] ? 'lock' : 'lock_open' }}</span>
+                                        </button>
+                                    </div>
+                                </td>
+
+                                <td class="py-2.5 px-2.5 text-right font-display font-black text-xs sm:text-sm" 
+                                    :class="[day.type === 'OFF' ? 'text-slate-400' : getDailySum(day) !== presetTargetRate ? 'text-mustard-700' : 'text-navy-900']">
+                                    ₱{{ formatMoney(getDailySum(day)) }}
+                                </td>
+
+                                <td class="py-2.5 px-2.5 text-center">
+                                    <button v-if="day.type !== 'OFF'" @click="applyDayRulesToSameType(day)" 
+                                            title="Copy amounts to all days of same status"
+                                            class="p-1 rounded-lg bg-surface-high hover:bg-navy-900 hover:text-white transition-all">
+                                        <span class="material-symbols-outlined text-xs">content_copy</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- TAB 2: UPCOMING CUTOFF FORECAST & DAY-BY-DAY PLANNER -->
+        <div v-if="currentTab === 'gauge'" class="space-y-5">
+            
+            <section class="m3-expressive-card p-4 sm:p-6 border-2 border-navy-300 bg-gradient-to-br from-navy-50 via-dlsu-50 to-mustard-50 space-y-5 shadow-xs">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b pb-3 border-navy-200">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-10 h-10 rounded-2xl bg-navy-900 text-white scallop-shape flex items-center justify-center shadow-xs">
+                            <span class="material-symbols-outlined text-xl text-mustard-400">trending_up</span>
+                        </div>
+                        <div>
+                            <h2 class="text-base sm:text-lg font-display font-black text-navy-900">Next Cutoff Forecast & Day-by-Day Day Planner</h2>
+                            <p class="text-[10px] sm:text-xs text-slate-500 font-bold">Customize which days are WFH, Office, Leave, or OT for your next cutoff to calculate exact upcoming funds</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 bg-white px-3 py-1.5 rounded-2xl border border-navy-200 shadow-xs">
+                        <span class="text-xs font-bold text-slate-500">Upcoming Rule:</span>
+                        <select v-model="nextCutoffRule" @change="regenerateUpcomingDays" class="bg-navy-50 border border-navy-300 rounded-xl px-2.5 py-1 font-display font-black text-xs text-navy-900 outline-none">
+                            <option value="11">11 Workdays Cutoff</option>
+                            <option value="10">10 Workdays Cutoff</option>
+                            <option value="12">12 Workdays Cutoff</option>
+                            <option value="13">13 Workdays Cutoff</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 3-PILLAR UPCOMING MONEY EQUATION -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+                    
+                    <!-- Pillar 1: Unspent Liquid Carryover -->
+                    <div class="m3-expressive-card p-4 bg-white border border-dlsu-200 space-y-1.5 shadow-xs">
+                        <div class="flex items-center justify-between text-dlsu-800">
+                            <span class="text-[10px] font-display font-black uppercase">Pillar 1: Unspent Liquid Cash</span>
+                            <span class="material-symbols-outlined text-lg">payments</span>
+                        </div>
+                        <div class="text-xl sm:text-2xl font-display font-black text-navy-900">
+                            ₱{{ formatMoney(totalLiquidRemaining) }}
+                        </div>
+                        <p class="text-[10px] text-slate-500 font-bold">Current unspent funds from LandBank, GoTyme & MariBank</p>
+                    </div>
+
+                    <!-- Pillar 2: Calculated Next Cutoff Salary -->
+                    <div class="m3-expressive-card-alt p-4 bg-white border border-navy-200 space-y-1.5 shadow-xs">
+                        <div class="flex items-center justify-between text-navy-800">
+                            <span class="text-[10px] font-display font-black uppercase">Pillar 2: Next Cutoff Planned Salary</span>
+                            <span class="material-symbols-outlined text-lg">event_available</span>
+                        </div>
+                        <div class="text-xl sm:text-2xl font-display font-black text-navy-900">
+                            ₱{{ formatMoney(upcomingCutoffCalculatedSalary) }}
+                        </div>
+                        <p class="text-[10px] text-slate-500 font-bold">Calculated dynamically from your day-by-day plan below</p>
+                    </div>
+
+                    <!-- Pillar 3: Expected Next Bonus -->
+                    <div class="m3-expressive-card p-4 bg-white border border-mustard-300 space-y-1.5 shadow-xs">
+                        <div class="flex items-center justify-between text-mustard-800">
+                            <span class="text-[10px] font-display font-black uppercase">Pillar 3: Expected Next Bonus / OT</span>
+                            <span class="material-symbols-outlined text-lg">add_card</span>
+                        </div>
+                        <div class="flex items-center bg-surface-container px-2 py-1 rounded-xl border border-mustard-300">
+                            <span class="text-xs font-black text-mustard-700 mr-1">₱</span>
+                            <input type="number" step="50" v-model.number="nextExpectedBonus" 
+                                   placeholder="0.00"
+                                   class="w-full min-w-0 bg-transparent font-display font-black text-lg text-navy-900 outline-none">
+                        </div>
+                        <p class="text-[10px] text-slate-500 font-bold">Input expected extra overtime or incentive money</p>
+                    </div>
+
+                </div>
+
+                <!-- GRAND TOTAL PROJECTED LIQUID MONEY BANNER -->
+                <div class="p-5 rounded-3xl bg-gradient-to-r from-navy-900 via-navy-800 to-dlsu-800 text-white flex flex-wrap items-center justify-between gap-3 shadow-md">
+                    <div>
+                        <div class="text-[10px] sm:text-xs font-display font-extrabold uppercase tracking-wider text-mustard-400">Total Projected Upcoming Liquid Money</div>
+                        <div class="text-3xl sm:text-4xl font-display font-black tracking-tight mt-0.5">₱{{ formatMoney(projectedNextCutoffLiquid) }}</div>
+                        <div class="text-[10px] sm:text-xs font-bold text-dlsu-100 mt-0.5">Available for spending & savings allocation in your next cutoff</div>
+                    </div>
+
+                    <div class="p-3.5 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 text-right">
+                        <div class="text-[9px] font-extrabold uppercase text-mustard-300">Locked MP2 Wealth Accumulation</div>
+                        <div class="text-lg font-display font-black text-white">₱{{ formatMoney(projectedNextMP2) }}</div>
+                        <div class="text-[9px] text-slate-200 font-bold">Current MP2 + Next Contribution</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DAY-BY-DAY UPCOMING CUTOFF PLANNER GRID -->
+            <section class="m3-expressive-card p-4 sm:p-6 space-y-4 border border-dlsu-200 bg-white shadow-xs">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b pb-3 border-slate-200">
+                    <div>
+                        <h3 class="text-sm sm:text-base font-display font-black flex items-center gap-2 text-navy-900">
+                            <span class="material-symbols-outlined text-navy-800 text-lg">edit_calendar</span>
+                            Upcoming Cutoff Day-by-Day Day Planner
+                        </h3>
+                        <p class="text-[10px] sm:text-xs text-slate-500 font-bold">Select day statuses for your upcoming cutoff dates to update your projected salary in real-time</p>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-1.5">
+                        <button @click="batchSetUpcomingWeekdays('OFFICE')" class="px-2.5 py-1 bg-dlsu-100 text-dlsu-900 rounded-full text-[10px] font-bold">🏢 All Weekdays = Office</button>
+                        <button @click="batchSetUpcomingWeekdays('WFH')" class="px-2.5 py-1 bg-navy-100 text-navy-900 rounded-full text-[10px] font-bold">🏠 All Weekdays = WFH</button>
+                        <button @click="batchSetUpcomingWeekends('OFF')" class="px-2.5 py-1 bg-rose-100 text-rose-800 rounded-full text-[10px] font-bold">🚫 Weekends = OFF</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-2.5">
+                    <div v-for="upDay in upcomingDaysList" :key="upDay.dateStr"
+                         @click="cycleUpcomingDayType(upDay)"
+                         :class="[
+                            upDay.type === 'OFFICE' ? 'border-dlsu-300 bg-dlsu-50/80' : '',
+                            upDay.type === 'WFH' ? 'border-navy-300 bg-navy-50/80' : '',
+                            upDay.type === 'LEAVE' ? 'border-purple-300 bg-purple-50/80' : '',
+                            upDay.type === 'OT' ? 'border-mustard-300 bg-mustard-50/80' : '',
+                            upDay.type === 'OFF' ? 'border-slate-200 bg-slate-100 opacity-60' : ''
+                         ]"
+                         class="m3-expressive-card p-3 border-2 cursor-pointer hover:scale-105 transition-all flex flex-col justify-between h-28 shadow-2xs">
+                        
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-display font-black text-navy-900">{{ upDay.dateDisplay }}</span>
+                            <span :class="getDayTypeBadgeStyle(upDay.type)" class="text-[9px] font-display font-black px-1.5 py-0.5 rounded-full">
+                                {{ upDay.type }}
+                            </span>
+                        </div>
+
+                        <div>
+                            <div class="text-[9px] text-slate-400 font-bold uppercase">{{ upDay.weekdayName }}</div>
+                            <div class="text-sm font-display font-black text-navy-900">
+                                ₱{{ formatMoney(getDailySum(upDay)) }}
+                            </div>
+                        </div>
+
+                        <div class="text-[9px] text-slate-500 font-bold flex items-center justify-between pt-1 border-t border-slate-200/50">
+                            <span>💵 ₱{{ upDay.categories.Allowance }}</span>
+                            <span>📈 ₱{{ upDay.categories.MP2 }}</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PER-CATEGORY UPCOMING FORECAST BREAKDOWN GRID -->
+            <section class="m3-expressive-card-alt p-4 sm:p-6 space-y-3 border border-dlsu-200 bg-white shadow-xs">
+                <div class="flex items-center justify-between border-b pb-2.5 border-slate-200">
+                    <div>
+                        <h3 class="text-xs sm:text-sm font-display font-black flex items-center gap-2 text-navy-900">
+                            <span class="material-symbols-outlined text-navy-800 text-lg">bar_chart</span>
+                            Projected Category Breakdown for Next Cutoff
+                        </h3>
+                        <p class="text-[10px] text-slate-500 font-bold">Forecast = (Current Unspent Remaining) + (Upcoming Planned Allocation)</p>
+                    </div>
+                    <span class="text-[10px] font-extrabold px-2.5 py-1 bg-navy-100 text-navy-900 rounded-full">Next Cutoff Forecast</span>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5">
+                    <div v-for="catKey in categoryKeys" :key="catKey" 
+                         :class="[catKey === 'MP2' ? 'border-2 border-mustard-400 bg-mustard-50' : 'bg-surface-container border border-slate-200']"
+                         class="p-3 rounded-2xl flex flex-col justify-between space-y-1.5">
+                        
+                        <div>
+                            <div class="flex items-center justify-between text-xs font-bold text-slate-500">
+                                <span class="flex items-center gap-1 truncate">
+                                    <span>{{ categoryEmojis[catKey] }}</span>
+                                    <span class="truncate">{{ formatCatName(catKey) }}</span>
+                                </span>
+                            </div>
+
+                            <div class="text-sm sm:text-base font-display font-black text-navy-900 mt-1.5">
+                                ₱{{ formatMoney(projectedCategoryTotals[catKey]) }}
+                            </div>
+                        </div>
+
+                        <div class="text-[9px] font-bold text-slate-500 space-y-0.5 pt-1.5 border-t border-slate-200">
+                            <div class="flex justify-between">
+                                <span>Unspent:</span>
+                                <span class="text-dlsu-800 font-black">₱{{ formatMoney(netCategoryTotals[catKey]) }}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>+ Next Alloc:</span>
+                                <span class="text-navy-800 font-black">₱{{ formatMoney(upcomingCategoryTotals[catKey]) }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- TAB 3: LOGGED EXPENSES LEDGER -->
+        <div v-if="currentTab === 'expenses'" class="m3-expressive-card p-4 sm:p-6 space-y-4 border border-dlsu-200 bg-white shadow-xs">
+            <div class="flex items-center justify-between border-b pb-3 border-slate-200">
+                <div>
+                    <h3 class="text-xs sm:text-sm font-display font-black flex items-center gap-2 text-navy-900">
+                        <span class="material-symbols-outlined text-rose-600 text-lg">receipt_long</span>
+                        Logged Expenses & Spending Ledger
+                    </h3>
+                    <p class="text-[10px] text-slate-500 font-bold">Track purchases deducted from liquid spending categories (Pag-IBIG MP2 excluded)</p>
+                </div>
+
+                <button @click="openExpenseModal" class="px-3.5 py-2 bg-rose-600 text-white font-display font-black rounded-full text-xs flex items-center gap-1 shadow-xs hover:scale-105 transition-all">
+                    <span class="material-symbols-outlined text-sm">add</span> Log Expense
+                </button>
+            </div>
+
+            <div v-if="loggedExpenses.length === 0" class="text-center py-12 text-slate-400 font-display font-bold text-xs space-y-2">
+                <span class="material-symbols-outlined text-4xl text-slate-300">shopping_bag</span>
+                <p>No expenses logged yet! Click "Log Expense" to deduct money from any liquid category.</p>
+            </div>
+
+            <div v-else class="overflow-x-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="border-b border-slate-200 text-slate-500 font-display font-extrabold uppercase tracking-wider bg-surface-container">
+                            <th class="py-2.5 px-3">Date</th>
+                            <th class="py-2.5 px-3">Expense Note</th>
+                            <th class="py-2.5 px-3">Category Deducted From</th>
+                            <th class="py-2.5 px-3">Target Bank Account</th>
+                            <th class="py-2.5 px-3 text-right">Amount Spent</th>
+                            <th class="py-2.5 px-3 text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 font-medium">
+                        <tr v-for="exp in loggedExpenses" :key="exp.id" class="hover:bg-slate-50 transition-colors">
+                            <td class="py-2.5 px-3 font-bold text-slate-500">{{ exp.date }}</td>
+                            <td class="py-2.5 px-3 font-display font-black text-navy-900">{{ exp.title }}</td>
+                            <td class="py-2.5 px-3">
+                                <span class="px-2.5 py-1 rounded-full bg-navy-100 text-navy-900 font-bold text-[10px] flex items-center gap-1 w-max">
+                                    <span>{{ categoryEmojis[exp.category] }}</span>
+                                    <span>{{ formatCatName(exp.category) }}</span>
+                                </span>
+                            </td>
+                            <td class="py-2.5 px-3 font-bold text-slate-500">{{ getBankForCategory(exp.category) }}</td>
+                            <td class="py-2.5 px-3 text-right font-display font-black text-rose-600 text-xs sm:text-sm">
+                                -₱{{ formatMoney(exp.amount) }}
+                            </td>
+                            <td class="py-2.5 px-3 text-center">
+                                <div class="flex items-center justify-center gap-1">
+                                    <button @click="openEditExpenseModal(exp)" title="Edit Expense" class="text-navy-800 p-1 rounded-lg hover:bg-navy-100 transition-all">
+                                        <span class="material-symbols-outlined text-base">edit</span>
+                                    </button>
+                                    <button @click="promptDeleteExpense(exp)" title="Delete Expense" class="text-rose-600 p-1 rounded-lg hover:bg-rose-100 transition-all">
+                                        <span class="material-symbols-outlined text-base">delete</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB 4: CALENDAR VIEW -->
+        <div v-if="currentTab === 'calendar'" class="m3-expressive-card-alt p-4 sm:p-6 space-y-4 border border-dlsu-200 bg-white shadow-xs">
+            <div class="flex items-center justify-between border-b pb-3 border-slate-200">
+                <h3 class="text-xs sm:text-sm font-display font-black flex items-center gap-2 text-navy-900">
+                    <span class="material-symbols-outlined text-dlsu-800 text-lg">calendar_month</span>
+                    Interactive Calendar View
+                </h3>
+                <span class="text-[10px] text-slate-500 font-bold">Tap day card to cycle status</span>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-2.5">
+                <div v-for="day in daysList" :key="day.dateStr"
+                     @click="cycleDayType(day)"
+                     :class="[
+                        day.type === 'OFFICE' ? 'border-dlsu-300 bg-dlsu-50' : '',
+                        day.type === 'WFH' ? 'border-navy-300 bg-navy-50' : '',
+                        day.type === 'LEAVE' ? 'border-purple-300 bg-purple-50' : '',
+                        day.type === 'OT' ? 'border-mustard-300 bg-mustard-50' : '',
+                        day.type === 'OFF' ? 'border-slate-200 bg-slate-100 opacity-60' : ''
+                     ]"
+                     class="m3-expressive-card p-3 border-2 cursor-pointer hover:scale-105 transition-all flex flex-col justify-between h-28 shadow-2xs">
+                    
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-display font-black text-navy-900">{{ day.dateDisplay }}</span>
+                        <span :class="getDayTypeBadgeStyle(day.type)" class="text-[9px] font-display font-black px-1.5 py-0.5 rounded-full">
+                            {{ day.type }}
+                        </span>
+                    </div>
+
+                    <div class="my-auto">
+                        <div class="text-[9px] text-slate-400 font-bold uppercase">{{ day.weekdayName }}</div>
+                        <div class="text-sm sm:text-base font-display font-black text-navy-900">
+                            ₱{{ formatMoney(getDailySum(day)) }}
+                        </div>
+                    </div>
+
+                    <div class="text-[9px] text-slate-500 font-bold flex items-center justify-between pt-1 border-t border-slate-200/50">
+                        <span>💵 ₱{{ day.categories.Allowance }}</span>
+                        <span>📈 ₱{{ day.categories.MP2 }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: RULES MATRIX -->
+        <div v-if="currentTab === 'formulas'" class="m3-expressive-card p-4 sm:p-6 space-y-5 border border-dlsu-200 bg-white shadow-xs">
+            <div class="flex items-center justify-between border-b pb-3 border-slate-200">
+                <div>
+                    <h3 class="text-sm sm:text-base font-display font-black flex items-center gap-2 text-navy-900">
+                        <span class="material-symbols-outlined text-navy-800 text-lg">settings_suggest</span>
+                        Formula Matrix Preset Rules ({{ selectedPreset }} Days Cutoff)
+                    </h3>
+                    <p class="text-[10px] text-slate-500 font-bold">Customize default allocations for Office vs WFH/Leave days</p>
+                </div>
+
+                <button @click="resetPresetToDefaults" class="px-3.5 py-1.5 bg-navy-100 text-navy-900 rounded-full text-xs font-display font-bold flex items-center gap-1 hover:bg-navy-200">
+                    <span class="material-symbols-outlined text-sm">restart_alt</span>
+                    Restore Defaults
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Office Rules -->
+                <div class="p-4 rounded-3xl bg-dlsu-50/80 border border-dlsu-200 space-y-2.5">
+                    <div class="flex items-center justify-between border-b pb-2 border-dlsu-200">
+                        <span class="text-xs font-display font-black text-dlsu-900">🏢 Office Work Day Preset</span>
+                        <span class="text-xs font-display font-black">Target: ₱{{ formatMoney(presetTargetRate) }}</span>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <div v-for="catKey in categoryKeys" :key="catKey" class="flex items-center justify-between text-xs">
+                            <span class="font-bold text-slate-700 flex items-center gap-1">
+                                <span>{{ categoryEmojis[catKey] }}</span>
+                                <span>{{ formatCatName(catKey) }}</span>
+                            </span>
+                            <input type="number" v-model.number="activePresetRules.work[catKey]" 
+                                   @input="updatePresetRules('work')"
+                                   class="w-16 px-2 py-0.5 bg-white border border-slate-300 rounded-lg text-right font-display font-black text-xs outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- WFH / Leave Rules -->
+                <div class="p-4 rounded-3xl bg-navy-50/80 border border-navy-200 space-y-2.5">
+                    <div class="flex items-center justify-between border-b pb-2 border-navy-200">
+                        <span class="text-xs font-display font-black text-navy-900">🏠 WFH / 🌴 Paid Leave Preset</span>
+                        <span class="text-xs font-display font-black">Target: ₱{{ formatMoney(presetTargetRate) }}</span>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <div v-for="catKey in categoryKeys" :key="catKey" class="flex items-center justify-between text-xs">
+                            <span class="font-bold text-slate-700 flex items-center gap-1">
+                                <span>{{ categoryEmojis[catKey] }}</span>
+                                <span>{{ formatCatName(catKey) }}</span>
+                            </span>
+                            <input type="number" v-model.number="activePresetRules.nonWork[catKey]" 
+                                   @input="updatePresetRules('nonWork')"
+                                   class="w-16 px-2 py-0.5 bg-white border border-slate-300 rounded-lg text-right font-display font-black text-xs outline-none">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 6: ARCHIVE / HISTORY -->
+        <div v-if="currentTab === 'history'" class="m3-expressive-card-alt p-4 sm:p-6 space-y-4 border border-dlsu-200 bg-white shadow-xs">
+            <div class="flex items-center justify-between border-b pb-3 border-slate-200">
+                <h3 class="text-xs sm:text-sm font-display font-black flex items-center gap-2 text-navy-900">
+                    <span class="material-symbols-outlined text-navy-800 text-lg">archive</span>
+                    Archived Past Cutoffs & Salary Logs
+                </h3>
+                <span class="text-[10px] text-slate-500 font-bold">{{ archivedCycles.length }} Cycles Saved</span>
+            </div>
+
+            <div v-if="archivedCycles.length === 0" class="text-center py-12 text-slate-400 font-display font-bold text-xs">
+                No past cutoffs archived yet. Click "New Payday Entry" to finalize your current sheet and launch a fresh cycle!
+            </div>
+
+            <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                <div v-for="(cycle, idx) in archivedCycles" :key="idx" 
+                     class="p-4 rounded-3xl bg-surface-container border border-slate-200 space-y-2.5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="font-display font-black text-sm sm:text-base text-navy-900">{{ cycle.range }}</div>
+                            <div class="text-[10px] text-slate-500 font-bold">{{ cycle.presetKey }} Days Cutoff • Archived {{ cycle.archivedAt }}</div>
+                        </div>
+                        <span class="px-2.5 py-1 bg-dlsu-100 text-dlsu-900 rounded-full font-display font-black text-xs">
+                            ₱{{ formatMoney(cycle.grandTotal) }}
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-1.5 text-[9px] font-bold text-slate-500 border-t pt-2 border-slate-200">
+                        <div>Rollover: ₱{{ formatMoney(cycle.totalRollover) }}</div>
+                        <div>Base Salary: ₱{{ formatMoney(cycle.salary) }}</div>
+                        <div>Extra: ₱{{ formatMoney(cycle.extra) }}</div>
+                    </div>
+
+                    <div class="flex justify-end gap-2 pt-1">
+                        <button @click="deleteArchivedCycle(idx)" class="px-2.5 py-0.5 text-rose-600 hover:bg-rose-100 rounded-full text-xs font-bold">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Bottom Sheets & Modals -->
+
+    <!-- 0. M3 EXPRESSIVE QUICK TOOLS & BACKUP BOTTOM SHEET -->
+    <div v-if="showToolsSheet" class="fixed inset-0 z-50 flex items-end justify-center p-0 modal-blur animate-fade-in" @click.self="showToolsSheet = false">
+        <div class="bg-white p-5 sm:p-7 rounded-t-4xl max-w-lg w-full border border-slate-200 shadow-2xl space-y-5 animate-slide-up">
+            <div class="flex items-center justify-between border-b pb-3 border-slate-200">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-10 h-10 rounded-2xl bg-navy-900 text-white scallop-shape flex items-center justify-center font-bold">
+                        <span class="material-symbols-outlined text-xl text-mustard-400">build</span>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-black text-base text-navy-900">Quick Tools & Backup Center</h3>
+                        <p class="text-[10px] text-slate-500 font-bold">Export, import, or save your financial data safely</p>
+                    </div>
+                </div>
+                <button @click="showToolsSheet = false" class="p-1 text-slate-400 hover:text-navy-900">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <button @click="triggerManualSave(); showToolsSheet = false" class="m3-expressive-btn p-3.5 bg-dlsu-50 border border-dlsu-200 rounded-3xl text-left space-y-1 hover:border-dlsu-600">
+                    <span class="material-symbols-outlined text-2xl text-dlsu-800">save</span>
+                    <div class="font-display font-black text-xs text-navy-900">Save Snapshot</div>
+                    <div class="text-[9px] text-slate-500 font-bold">Commit current state to local storage</div>
+                </button>
+
+                <button @click="exportBackupJSON(); showToolsSheet = false" class="m3-expressive-btn p-3.5 bg-navy-50 border border-navy-200 rounded-3xl text-left space-y-1 hover:border-navy-600">
+                    <span class="material-symbols-outlined text-2xl text-navy-800">file_download</span>
+                    <div class="font-display font-black text-xs text-navy-900">Export Backup (.json)</div>
+                    <div class="text-[9px] text-slate-500 font-bold">Download complete JSON file</div>
+                </button>
+
+                <button @click="openImportModal(); showToolsSheet = false" class="m3-expressive-btn p-3.5 bg-mustard-50 border border-mustard-200 rounded-3xl text-left space-y-1 hover:border-mustard-600">
+                    <span class="material-symbols-outlined text-2xl text-mustard-800">file_upload</span>
+                    <div class="font-display font-black text-xs text-navy-900">Import Backup (.json)</div>
+                    <div class="text-[9px] text-slate-500 font-bold">Restore state from JSON backup</div>
+                </button>
+
+                <button @click="exportCSV(); showToolsSheet = false" class="m3-expressive-btn p-3.5 bg-surface-container border border-slate-300 rounded-3xl text-left space-y-1 hover:border-slate-500">
+                    <span class="material-symbols-outlined text-2xl text-slate-800">table_view</span>
+                    <div class="font-display font-black text-xs text-navy-900">Export CSV Sheet</div>
+                    <div class="text-[9px] text-slate-500 font-bold">Download Google Sheets compatible CSV</div>
+                </button>
+            </div>
+
+            <div class="pt-2 border-t border-slate-200 flex justify-end">
+                <button @click="showToolsSheet = false" class="w-full py-3 bg-navy-900 text-white font-display font-black text-xs rounded-full shadow-xs">
+                    Close Tools Sheet
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1. Log Expense Modal -->
+    <div v-if="showExpenseModal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 modal-blur animate-fade-in">
+        <div class="bg-white p-5 sm:p-7 rounded-t-4xl sm:rounded-4xl max-w-md w-full border border-slate-200 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b pb-3 border-slate-200">
+                <div class="flex items-center gap-2">
+                    <div class="w-9 h-9 rounded-2xl bg-rose-600 text-white flex items-center justify-center font-bold">
+                        <span class="material-symbols-outlined text-lg">shopping_cart</span>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-black text-base text-navy-900">Log Expense / Withdrawal</h3>
+                        <p class="text-[10px] text-slate-500 font-bold">Deduct money from liquid spending categories</p>
+                    </div>
+                </div>
+                <button @click="closeExpenseModal" class="text-slate-400 hover:text-slate-600">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="space-y-3 text-xs font-bold">
+                <div>
+                    <label class="block text-slate-500 mb-1">Expense Item / Note</label>
+                    <input type="text" v-model="expenseForm.title" placeholder="e.g., Pet Grooming, Groceries, Bill"
+                           class="w-full bg-surface-container border border-slate-300 rounded-2xl px-3.5 py-2 text-navy-900 font-bold outline-none focus:ring-2 focus:ring-navy-800">
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label class="text-slate-500">Amount Spent (₱)</label>
+                        <span class="text-[10px] text-navy-800 font-extrabold">Supports Math (e.g. 150 + 220 - 50)</span>
+                    </div>
+                    <input type="text" v-model="expenseForm.amountExpr" placeholder="e.g. 150 + 220 - 50 or 500 * 2"
+                           class="w-full bg-surface-container border border-slate-300 rounded-2xl px-3.5 py-2 text-base font-display font-black text-rose-600 outline-none focus:ring-2 focus:ring-navy-800">
+                    <div class="mt-1 flex items-center justify-between text-xs font-extrabold px-1">
+                        <span class="text-slate-400">Calculated Total:</span>
+                        <span :class="[parsedExpenseAmount !== null && parsedExpenseAmount > 0 ? 'text-dlsu-800' : 'text-slate-400']">
+                            {{ parsedExpenseAmount !== null ? '= ₱' + formatMoney(parsedExpenseAmount) : 'Type valid math expression' }}
+                        </span>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-500 mb-1">Deduct From Liquid Category</label>
+                    <select v-model="expenseForm.category"
+                            class="w-full bg-surface-container border border-slate-300 rounded-2xl px-3.5 py-2 text-navy-900 font-bold outline-none">
+                        <option v-for="catKey in spendableCategoryKeys" :key="catKey" :value="catKey">
+                            {{ categoryEmojis[catKey] }} {{ formatCatName(catKey) }} ({{ getBankForCategory(catKey) }})
+                        </option>
+                    </select>
+                    <p class="text-[10px] text-mustard-800 mt-1 font-bold">🔒 Note: Pag-IBIG MP2 is excluded as it is a 5-year locked asset.</p>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-2.5 pt-2">
+                <button @click="closeExpenseModal" class="px-4 py-2 rounded-full text-slate-500 font-bold text-xs hover:bg-slate-100">
+                    Cancel
+                </button>
+                <button @click="submitExpenseEntry" class="px-5 py-2 bg-rose-600 text-white font-display font-black text-xs rounded-full shadow-xs hover:scale-105 transition-all">
+                    Confirm & Deduct
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1b. Edit Expense Modal -->
+    <div v-if="showEditExpenseModal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 modal-blur animate-fade-in">
+        <div class="bg-white p-5 sm:p-7 rounded-t-4xl sm:rounded-4xl max-w-md w-full border border-slate-200 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b pb-3 border-slate-200">
+                <div class="flex items-center gap-2">
+                    <div class="w-9 h-9 rounded-2xl bg-navy-900 text-white flex items-center justify-center font-bold">
+                        <span class="material-symbols-outlined text-lg">edit</span>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-black text-base text-navy-900">Edit Spent Transaction</h3>
+                        <p class="text-[10px] text-slate-500 font-bold">Modify expense details, amount, or category</p>
+                    </div>
+                </div>
+                <button @click="closeEditExpenseModal" class="text-slate-400 hover:text-slate-600">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="space-y-3 text-xs font-bold">
+                <div>
+                    <label class="block text-slate-500 mb-1">Expense Item / Note</label>
+                    <input type="text" v-model="editExpenseForm.title" placeholder="e.g., Pet Grooming, Groceries"
+                           class="w-full bg-surface-container border border-slate-300 rounded-2xl px-3.5 py-2 text-navy-900 font-bold outline-none focus:ring-2 focus:ring-navy-800">
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label class="text-slate-500">Amount Spent (₱)</label>
+                        <span class="text-[10px] text-navy-800 font-extrabold">Supports Math (e.g. 150 + 220 - 50)</span>
+                    </div>
+                    <input type="text" v-model="editExpenseForm.amountExpr" placeholder="e.g. 150 + 220 - 50 or 500 * 2"
+                           class="w-full bg-surface-container border border-slate-300 rounded-2xl px-3.5 py-2 text-base font-display font-black text-rose-600 outline-none focus:ring-2 focus:ring-navy-800">
+                    <div class="mt-1 flex items-center justify-between text-xs font-extrabold px-1">
+                        <span class="text-slate-400">Calculated Total:</span>
+                        <span :class="[parsedEditExpenseAmount !== null && parsedEditExpenseAmount > 0 ? 'text-dlsu-800' : 'text-slate-400']">
+                            {{ parsedEditExpenseAmount !== null ? '= ₱' + formatMoney(parsedEditExpenseAmount) : 'Type valid math expression' }}
+                        </span>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-500 mb-1">Deduct From Liquid Category</label>
+                    <select v-model="editExpenseForm.category"
+                            class="w-full bg-surface-container border border-slate-300 rounded-2xl px-3.5 py-2 text-navy-900 font-bold outline-none">
+                        <option v-for="catKey in spendableCategoryKeys" :key="catKey" :value="catKey">
+                            {{ categoryEmojis[catKey] }} {{ formatCatName(catKey) }} ({{ getBankForCategory(catKey) }})
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-2.5 pt-2">
+                <button @click="closeEditExpenseModal" class="px-4 py-2 rounded-full text-slate-500 font-bold text-xs hover:bg-slate-100">
+                    Cancel
+                </button>
+                <button @click="submitEditExpense" class="px-5 py-2 bg-navy-900 text-white font-display font-black text-xs rounded-full shadow-xs hover:scale-105 transition-all">
+                    Save Changes
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Add Bonus / OT Modal -->
+    <div v-if="showBonusModal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 modal-blur animate-fade-in">
+        <div class="bg-white p-5 sm:p-7 rounded-t-4xl sm:rounded-4xl max-w-md w-full border border-slate-200 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b pb-3 border-slate-200">
+                <div class="flex items-center gap-2">
+                    <div class="w-9 h-9 rounded-2xl bg-mustard-600 text-white flex items-center justify-center font-bold">
+                        <span class="material-symbols-outlined text-lg">payments</span>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-black text-base text-navy-900">Add Bonus / OT Pay Injection</h3>
+                        <p class="text-[10px] text-slate-500 font-bold">Log extra cash, night differential, or overtime incentives</p>
+                    </div>
+                </div>
+                <button @click="closeBonusModal" class="text-slate-400 hover:text-slate-600">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="space-y-3 text-xs font-bold">
+                <div>
+                    <label class="block text-slate-500 mb-1">Income Description / Tag</label>
+                    <input type="text" v-model="newBonusForm.title" placeholder="e.g., Night Diff OT, Performance Incentive"
+                           class="w-full bg-surface-container border border-slate-300 rounded-2xl px-3.5 py-2 text-navy-900 font-bold outline-none focus:ring-2 focus:ring-navy-800">
+                </div>
+
+                <div>
+                    <label class="block text-slate-500 mb-1">Amount (₱)</label>
+                    <input type="number" step="0.01" v-model.number="newBonusForm.amount" placeholder="0.00"
+                           class="w-full bg-surface-container border border-slate-300 rounded-2xl px-3.5 py-2 text-base font-display font-black text-navy-900 outline-none focus:ring-2 focus:ring-navy-800">
+                </div>
+
+                <div>
+                    <label class="block text-slate-500 mb-1">Target Category Allocation</label>
+                    <select v-model="newBonusForm.allocation"
+                            class="w-full bg-surface-container border border-slate-300 rounded-2xl px-3.5 py-2 text-navy-900 font-bold outline-none">
+                        <option v-for="catKey in categoryKeys" :key="catKey" :value="catKey">
+                            {{ categoryEmojis[catKey] }} {{ formatCatName(catKey) }} ({{ getBankForCategory(catKey) }})
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-2.5 pt-2">
+                <button @click="closeBonusModal" class="px-4 py-2 rounded-full text-slate-500 font-bold text-xs hover:bg-slate-100">
+                    Cancel
+                </button>
+                <button @click="submitBonusEntry" class="px-5 py-2 bg-mustard-600 text-white font-display font-black text-xs rounded-full shadow-xs hover:scale-105 transition-all">
+                    Add Income Entry
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2b. Edit Bonus / OT Modal -->
+    <div v-if="showEditBonusModal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 modal-blur animate-fade-in">
+        <div class="bg-white p-5 sm:p-7 rounded-t-4xl sm:rounded-4xl max-w-md w-full border border-slate-200 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b pb-3 border-slate-200">
+                <div class="flex items-center gap-2">
+                    <div class="w-9 h-9 rounded-2xl bg-mustard-600 text-white flex items-center justify-center font-bold">
+                        <span class="material-symbols-outlined text-lg">edit</span>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-black text-base text-navy-900">Edit Bonus / OT Entry</h3>
+                        <p class="text-[10px] text-slate-500 font-bold">Modify income details or target category</p>
+                    </div>
+                </div>
+                <button @click="closeEditBonusModal" class="text-slate-400 hover:text-slate-600">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="space-y-3 text-xs font-bold">
+                <div>
+                    <label class="block text-slate-500 mb-1">Income Description / Tag</label>
+                    <input type="text" v-model="editBonusForm.title" placeholder="e.g., Night Diff OT, Performance Incentive"
+                           class="w-full bg-surface-container border border-slate-300 rounded-2xl px-3.5 py-2 text-navy-900 font-bold outline-none focus:ring-2 focus:ring-navy-800">
+                </div>
+
+                <div>
+                    <label class="block text-slate-500 mb-1">Amount (₱)</label>
+                    <input type="number" step="0.01" v-model.number="editBonusForm.amount" placeholder="0.00"
+                           class="w-full bg-surface-container border border-slate-300 rounded-2xl px-3.5 py-2 text-base font-display font-black text-navy-900 outline-none focus:ring-2 focus:ring-navy-800">
+                </div>
+
+                <div>
+                    <label class="block text-slate-500 mb-1">Target Category Allocation</label>
+                    <select v-model="editBonusForm.allocation"
+                            class="w-full bg-surface-container border border-slate-300 rounded-2xl px-3.5 py-2 text-navy-900 font-bold outline-none">
+                        <option v-for="catKey in categoryKeys" :key="catKey" :value="catKey">
+                            {{ categoryEmojis[catKey] }} {{ formatCatName(catKey) }} ({{ getBankForCategory(catKey) }})
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-2.5 pt-2">
+                <button @click="closeEditBonusModal" class="px-4 py-2 rounded-full text-slate-500 font-bold text-xs hover:bg-slate-100">
+                    Cancel
+                </button>
+                <button @click="submitEditBonus" class="px-5 py-2 bg-mustard-600 text-white font-display font-black text-xs rounded-full shadow-xs hover:scale-105 transition-all">
+                    Save OT / Bonus Changes
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. New Payday Cycle Wizard Modal -->
+    <div v-if="showNewCycleModal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 modal-blur animate-fade-in">
+        <div class="bg-white p-5 sm:p-7 rounded-t-4xl sm:rounded-4xl max-w-xl w-full border border-slate-200 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b pb-3 border-slate-200">
+                <div class="flex items-center gap-2">
+                    <div class="w-9 h-9 rounded-2xl bg-dlsu-800 text-white flex items-center justify-center font-bold">
+                        <span class="material-symbols-outlined text-lg">savings</span>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-black text-base text-navy-900">New Payday Cycle Wizard</h3>
+                        <p class="text-[10px] text-slate-500 font-bold">Specify per-category leftover carryover for your next budget</p>
+                    </div>
+                </div>
+                <button @click="closeNewCycleModal" class="text-slate-400 hover:text-slate-600">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="space-y-3 text-xs font-bold">
+                <div class="p-3.5 rounded-3xl bg-surface-container space-y-2.5">
+                    <label class="block text-navy-900 font-display font-black">
+                        Per-Category Leftover Carryover (₱)
+                    </label>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div v-for="catKey in categoryKeys" :key="catKey" class="flex flex-col bg-white p-2 rounded-xl border border-slate-300">
+                            <span class="text-[9px] text-slate-500 font-extrabold uppercase flex items-center gap-1">
+                                <span>{{ categoryEmojis[catKey] }}</span>
+                                <span class="truncate">{{ formatCatName(catKey) }}</span>
+                            </span>
+                            <div class="flex items-center mt-0.5">
+                                <span class="text-xs text-slate-400 mr-1 font-bold">₱</span>
+                                <input type="number" step="0.01" v-model.number="newCycleForm.categoryCarryovers[catKey]"
+                                       class="w-full bg-transparent text-navy-900 font-display font-black text-xs outline-none">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div>
+                        <label class="block text-slate-500 mb-1">New Start Date</label>
+                        <input type="date" v-model="newCycleForm.startDate" class="w-full bg-surface-container border border-slate-300 rounded-2xl px-3 py-1.5 text-navy-900 font-bold">
+                    </div>
+                    <div>
+                        <label class="block text-slate-500 mb-1">New End Date</label>
+                        <input type="date" v-model="newCycleForm.endDate" class="w-full bg-surface-container border border-slate-300 rounded-2xl px-3 py-1.5 text-navy-900 font-bold">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-500 mb-1">New Workdays Cutoff Rule</label>
+                    <select v-model="newCycleForm.presetKey" class="w-full bg-surface-container border border-slate-300 rounded-2xl px-3 py-1.5 text-navy-900 font-bold">
+                        <option value="11">11 Days Cutoff (₱1,640 target)</option>
+                        <option value="10">10 Days Cutoff (₱1,805 target)</option>
+                        <option value="12">12 Days Cutoff (₱1,505 target)</option>
+                        <option value="13">13 Days Cutoff (₱1,380 target)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-2.5 pt-2 border-t border-slate-200">
+                <button @click="closeNewCycleModal" class="px-4 py-2 rounded-full text-slate-500 font-bold text-xs hover:bg-slate-100">
+                    Cancel
+                </button>
+                <button @click="executeNewCycleWizard" class="px-5 py-2 bg-dlsu-800 text-white font-display font-black text-xs rounded-full shadow-xs hover:scale-105 transition-all">
+                    Archive & Launch New Budget
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Import JSON Modal -->
+    <div v-if="showImportModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-blur animate-fade-in">
+        <div class="bg-white p-5 sm:p-7 rounded-4xl max-w-md w-full border border-slate-200 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b pb-3 border-slate-200">
+                <div class="flex items-center gap-2">
+                    <div class="w-9 h-9 rounded-2xl bg-navy-900 text-white flex items-center justify-center font-bold">
+                        <span class="material-symbols-outlined text-lg">file_upload</span>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-black text-base text-navy-900">Import Backup JSON</h3>
+                        <p class="text-[10px] text-slate-500 font-bold">Restore budget progress from a saved .json file</p>
+                    </div>
+                </div>
+                <button @click="closeImportModal" class="text-slate-400 hover:text-slate-600">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="space-y-3 text-xs font-bold">
+                <input type="file" ref="jsonFileInput" accept=".json" class="w-full bg-surface-container border border-slate-300 rounded-2xl px-3.5 py-2.5 text-navy-900 font-bold">
+            </div>
+
+            <div class="flex items-center justify-end gap-2.5 pt-2">
+                <button @click="closeImportModal" class="px-4 py-2 rounded-full text-slate-500 font-bold text-xs hover:bg-slate-100">
+                    Cancel
+                </button>
+                <button @click="executeImportBackup" class="px-5 py-2 bg-navy-900 text-white font-display font-black text-xs rounded-full shadow-xs hover:scale-105 transition-all">
+                    Import File
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Material Expressive Confirm Dialog -->
+    <div v-if="showConfirmModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-blur animate-fade-in">
+        <div class="bg-white p-5 sm:p-7 rounded-4xl max-w-md w-full border border-slate-200 shadow-2xl space-y-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold shrink-0">
+                    <span class="material-symbols-outlined text-xl">warning</span>
+                </div>
+                <div>
+                    <h3 class="font-display font-black text-base text-navy-900">{{ confirmDialogData.title }}</h3>
+                    <p class="text-xs text-slate-500 font-bold">{{ confirmDialogData.message }}</p>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-2.5 pt-2">
+                <button @click="showConfirmModal = false" class="px-4 py-2 rounded-full text-slate-500 font-bold text-xs hover:bg-slate-100">
+                    Cancel
+                </button>
+                <button @click="runConfirmAction" class="px-5 py-2 bg-rose-600 text-white font-display font-black text-xs rounded-full shadow-xs hover:scale-105 transition-all">
+                    Confirm Action
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Bottom Navigation Dock -->
+    <nav class="fixed bottom-3 left-1/2 -translate-x-1/2 z-40 m3-dock px-2 sm:px-3 py-1.5 flex items-center gap-1 max-w-[95vw] overflow-x-auto scrollbar-none">
+        <button @click="currentTab = 'table'"
+                :class="[currentTab === 'table' ? 'bg-navy-900 text-white font-black shadow-xs' : 'text-slate-700 hover:bg-navy-100']"
+                class="px-3 sm:px-4 py-2 rounded-full text-xs font-display font-bold flex items-center gap-1 transition-all shrink-0">
+            <span class="material-symbols-outlined text-base">table_chart</span>
+            <span class="hidden sm:inline">Budget Sheet</span>
+        </button>
+
+        <button @click="currentTab = 'gauge'"
+                :class="[currentTab === 'gauge' ? 'bg-navy-900 text-white font-black shadow-xs' : 'text-slate-700 hover:bg-navy-100']"
+                class="px-3 sm:px-4 py-2 rounded-full text-xs font-display font-bold flex items-center gap-1 transition-all shrink-0">
+            <span class="material-symbols-outlined text-base text-mustard-400">trending_up</span>
+            <span class="hidden sm:inline">Next Cutoff Gauge</span>
+        </button>
+
+        <button @click="currentTab = 'expenses'"
+                :class="[currentTab === 'expenses' ? 'bg-navy-900 text-white font-black shadow-xs' : 'text-slate-700 hover:bg-navy-100']"
+                class="px-3 sm:px-4 py-2 rounded-full text-xs font-display font-bold flex items-center gap-1 transition-all shrink-0">
+            <span class="material-symbols-outlined text-base">receipt_long</span>
+            <span class="hidden sm:inline">Expenses</span>
+        </button>
+
+        <button @click="currentTab = 'calendar'"
+                :class="[currentTab === 'calendar' ? 'bg-navy-900 text-white font-black shadow-xs' : 'text-slate-700 hover:bg-navy-100']"
+                class="px-3 sm:px-4 py-2 rounded-full text-xs font-display font-bold flex items-center gap-1 transition-all shrink-0">
+            <span class="material-symbols-outlined text-base">calendar_month</span>
+            <span class="hidden sm:inline">Calendar</span>
+        </button>
+
+        <button @click="currentTab = 'formulas'"
+                :class="[currentTab === 'formulas' ? 'bg-navy-900 text-white font-black shadow-xs' : 'text-slate-700 hover:bg-navy-100']"
+                class="px-3 sm:px-4 py-2 rounded-full text-xs font-display font-bold flex items-center gap-1 transition-all shrink-0">
+            <span class="material-symbols-outlined text-base">calculate</span>
+            <span class="hidden sm:inline">Rules Matrix</span>
+        </button>
+
+        <button @click="currentTab = 'history'"
+                :class="[currentTab === 'history' ? 'bg-navy-900 text-white font-black shadow-xs' : 'text-slate-700 hover:bg-navy-100']"
+                class="px-3 sm:px-4 py-2 rounded-full text-xs font-display font-bold flex items-center gap-1 transition-all shrink-0">
+            <span class="material-symbols-outlined text-base">archive</span>
+            <span class="hidden sm:inline">Archive</span>
+        </button>
+    </nav>
+
+    <!-- Toast Notification Popup -->
+    <transition name="fade">
+        <div v-if="toastMessage" class="fixed top-5 right-5 z-50 bg-navy-900 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-2.5 text-xs font-display font-black border border-mustard-500">
+            <span class="material-symbols-outlined text-dlsu-600 text-lg">check_circle</span>
+            <span>{{ toastMessage }}</span>
+        </div>
+    </transition>
+
+</div>
+
+<script>
+    const { createApp, ref, computed, watch, onMounted, onBeforeUnmount } = Vue;
+
+    createApp({
+        setup() {
+            const toastMessage = ref('');
+            const currentTab = ref('table');
+            const lastSavedTime = ref('Just now');
+
+            // Undo / Redo History Stacks
+            const undoStack = ref([]);
+            const redoStack = ref([]);
+            const isNavigatingHistory = ref(false);
+
+            // Modals Visibility
+            const showToolsSheet = ref(false);
+            const showBonusModal = ref(false);
+            const showEditBonusModal = ref(false);
+            const showNewCycleModal = ref(false);
+            const showExpenseModal = ref(false);
+            const showEditExpenseModal = ref(false);
+            const showImportModal = ref(false);
+            const showConfirmModal = ref(false);
+
+            const jsonFileInput = ref(null);
+            const confirmDialogData = ref({ title: '', message: '', action: null });
+
+            // ALL 8 Categories
+            const categoryKeys = [
+                'Allowance', 'PersonalSaving', 'FutureSavings', 
+                'MajorDate', 'Utilities', 'Expenses', 'Phone', 'MP2'
+            ];
+
+            // Liquid Categories Only (Excludes MP2 from expenses)
+            const spendableCategoryKeys = [
+                'Allowance', 'PersonalSaving', 'FutureSavings', 
+                'MajorDate', 'Utilities', 'Expenses', 'Phone'
+            ];
+
+            // Non-repeating category emojis
+            const categoryEmojis = {
+                Allowance: '💵',
+                PersonalSaving: '🐷',
+                FutureSavings: '🚀',
+                MajorDate: '💖',
+                Utilities: '⚡',
+                Expenses: '🛍️',
+                Phone: '📱',
+                MP2: '📈'
+            };
+
+            const categoryRollovers = ref({
+                Allowance: 0,
+                PersonalSaving: 0,
+                FutureSavings: 0,
+                MajorDate: 0,
+                Utilities: 0,
+                Expenses: 0,
+                Phone: 0,
+                MP2: 0
+            });
+
+            const extraIncomes = ref([]);    
+            const loggedExpenses = ref([]); 
+            const archivedCycles = ref([]);  
+
+            // Cutoff Controls
+            const selectedPreset = ref('11');
+            const startDate = ref('2026-10-08');
+            const endDate = ref('2026-10-22');
+
+            // Upcoming Cutoff Planner & Gauger State
+            const nextCutoffRule = ref('11');
+            const nextExpectedBonus = ref(0);
+            const upcomingDaysList = ref([]);
+
+            // Arithmetic Math Expression Evaluator
+            const evaluateMathExpr = (expr) => {
+                if (expr === null || expr === undefined) return null;
+                if (typeof expr === 'number') return isNaN(expr) ? null : expr;
+                const str = String(expr).trim();
+                if (!str) return null;
+                
+                if (!/^[0-9+\-*/.()\s]+$/.test(str)) {
+                    return null;
+                }
+                
+                try {
+                    const result = Function(`"use strict"; return (${str})`)();
+                    if (typeof result === 'number' && !isNaN(result) && isFinite(result)) {
+                        return result;
+                    }
+                } catch (e) {
+                    return null;
+                }
+                return null;
+            };
+
+            // Forms
+            const newBonusForm = ref({ title: '', amount: null, allocation: 'PersonalSaving' });
+            const editBonusForm = ref({ id: null, title: '', amount: null, allocation: 'PersonalSaving', date: '' });
+            const expenseForm = ref({ title: '', amountExpr: '', category: 'Allowance' });
+            const editExpenseForm = ref({ id: null, title: '', amountExpr: '', category: 'Allowance', date: '' });
+
+            const parsedExpenseAmount = computed(() => evaluateMathExpr(expenseForm.value.amountExpr));
+            const parsedEditExpenseAmount = computed(() => evaluateMathExpr(editExpenseForm.value.amountExpr));
+
+            const newCycleForm = ref({
+                categoryCarryovers: { Allowance: 0, PersonalSaving: 0, FutureSavings: 0, MajorDate: 0, Utilities: 0, Expenses: 0, Phone: 0, MP2: 0 },
+                startDate: '2026-10-23',
+                endDate: '2026-11-07',
+                presetKey: '11'
+            });
+
+            const presetDatabase = {
+                '11': {
+                    targetRate: 1640,
+                    work: { Allowance: 500, PersonalSaving: 354, FutureSavings: 91, MajorDate: 173, Utilities: 120, Expenses: 160, Phone: 125, MP2: 120 },
+                    nonWork: { Allowance: 0, PersonalSaving: 629, FutureSavings: 91, MajorDate: 173, Utilities: 120, Expenses: 385, Phone: 125, MP2: 120 }
+                },
+                '10': {
+                    targetRate: 1805,
+                    work: { Allowance: 500, PersonalSaving: 425, FutureSavings: 100, MajorDate: 185, Utilities: 130, Expenses: 195, Phone: 140, MP2: 130 },
+                    nonWork: { Allowance: 0, PersonalSaving: 705, FutureSavings: 100, MajorDate: 185, Utilities: 130, Expenses: 415, Phone: 140, MP2: 130 }
+                },
+                '12': {
+                    targetRate: 1505,
+                    work: { Allowance: 500, PersonalSaving: 285, FutureSavings: 84, MajorDate: 160, Utilities: 100, Expenses: 150, Phone: 115, MP2: 110 },
+                    nonWork: { Allowance: 0, PersonalSaving: 591, FutureSavings: 84, MajorDate: 160, Utilities: 100, Expenses: 355, Phone: 115, MP2: 110 }
+                },
+                '13': {
+                    targetRate: 1380,
+                    work: { Allowance: 500, PersonalSaving: 248, FutureSavings: 77, MajorDate: 145, Utilities: 90, Expenses: 110, Phone: 110, MP2: 100 },
+                    nonWork: { Allowance: 0, PersonalSaving: 528, FutureSavings: 77, MajorDate: 145, Utilities: 90, Expenses: 330, Phone: 110, MP2: 100 }
+                },
+                'custom': {
+                    targetRate: 1640,
+                    work: { Allowance: 500, PersonalSaving: 354, FutureSavings: 91, MajorDate: 173, Utilities: 120, Expenses: 160, Phone: 125, MP2: 120 },
+                    nonWork: { Allowance: 0, PersonalSaving: 629, FutureSavings: 91, MajorDate: 173, Utilities: 120, Expenses: 385, Phone: 125, MP2: 120 }
+                }
+            };
+
+            const activePresetRules = ref(JSON.parse(JSON.stringify(presetDatabase['11'])));
+            const daysList = ref([]);
+
+            const createCurrentSnapshot = () => {
+                return JSON.stringify({
+                    daysList: daysList.value,
+                    upcomingDaysList: upcomingDaysList.value,
+                    categoryRollovers: categoryRollovers.value,
+                    extraIncomes: extraIncomes.value,
+                    loggedExpenses: loggedExpenses.value,
+                    selectedPreset: selectedPreset.value,
+                    startDate: startDate.value,
+                    endDate: endDate.value,
+                    nextCutoffRule: nextCutoffRule.value,
+                    nextExpectedBonus: nextExpectedBonus.value
+                });
+            };
+
+            const pushHistorySnapshot = () => {
+                if (isNavigatingHistory.value) return;
+                const snap = createCurrentSnapshot();
+                if (undoStack.value.length > 0 && undoStack.value[undoStack.value.length - 1] === snap) {
+                    return;
+                }
+                undoStack.value.push(snap);
+                if (undoStack.value.length > 50) undoStack.value.shift();
+                redoStack.value = [];
+            };
+
+            const canUndo = computed(() => undoStack.value.length > 0);
+            const canRedo = computed(() => redoStack.value.length > 0);
+
+            const applySnapshotState = (rawStateStr) => {
+                isNavigatingHistory.value = true;
+                try {
+                    const parsed = JSON.parse(rawStateStr);
+                    if (parsed.daysList) daysList.value = parsed.daysList;
+                    if (parsed.upcomingDaysList) upcomingDaysList.value = parsed.upcomingDaysList;
+                    if (parsed.categoryRollovers) categoryRollovers.value = parsed.categoryRollovers;
+                    if (parsed.extraIncomes) extraIncomes.value = parsed.extraIncomes;
+                    if (parsed.loggedExpenses) loggedExpenses.value = parsed.loggedExpenses;
+                    if (parsed.selectedPreset) selectedPreset.value = parsed.selectedPreset;
+                    if (parsed.startDate) startDate.value = parsed.startDate;
+                    if (parsed.endDate) endDate.value = parsed.endDate;
+                    if (parsed.nextCutoffRule) nextCutoffRule.value = parsed.nextCutoffRule;
+                    if (parsed.nextExpectedBonus !== undefined) nextExpectedBonus.value = parsed.nextExpectedBonus;
+                } catch(e) {
+                    console.error("Error restoring history snapshot", e);
+                } finally {
+                    isNavigatingHistory.value = false;
+                }
+            };
+
+            const undo = () => {
+                if (!canUndo.value) return;
+                const currentSnap = createCurrentSnapshot();
+                redoStack.value.push(currentSnap);
+                const prevSnap = undoStack.value.pop();
+                applySnapshotState(prevSnap);
+                showToast('↺ Undone edit');
+                saveAppState();
+            };
+
+            const redo = () => {
+                if (!canRedo.value) return;
+                const currentSnap = createCurrentSnapshot();
+                undoStack.value.push(currentSnap);
+                const nextSnap = redoStack.value.pop();
+                applySnapshotState(nextSnap);
+                showToast('↻ Redone edit');
+                saveAppState();
+            };
+
+            const saveAppState = () => {
+                const state = {
+                    daysList: daysList.value,
+                    upcomingDaysList: upcomingDaysList.value,
+                    categoryRollovers: categoryRollovers.value,
+                    extraIncomes: extraIncomes.value,
+                    loggedExpenses: loggedExpenses.value,
+                    archivedCycles: archivedCycles.value,
+                    startDate: startDate.value,
+                    endDate: endDate.value,
+                    selectedPreset: selectedPreset.value,
+                    activePresetRules: activePresetRules.value,
+                    nextCutoffRule: nextCutoffRule.value,
+                    nextExpectedBonus: nextExpectedBonus.value
+                };
+                try {
+                    localStorage.setItem('thirdy_m3_expressive_navy_dlsu_v14', JSON.stringify(state));
+                    const now = new Date();
+                    lastSavedTime.value = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                } catch(e) {
+                    console.error("Failed to save state to localStorage", e);
+                }
+            };
+
+            const loadAppState = () => {
+                try {
+                    const raw = localStorage.getItem('thirdy_m3_expressive_navy_dlsu_v14');
+                    if (raw) {
+                        const parsed = JSON.parse(raw);
+                        if (parsed.daysList && parsed.daysList.length > 0) daysList.value = parsed.daysList;
+                        if (parsed.upcomingDaysList && parsed.upcomingDaysList.length > 0) upcomingDaysList.value = parsed.upcomingDaysList;
+                        if (parsed.categoryRollovers) categoryRollovers.value = parsed.categoryRollovers;
+                        if (parsed.extraIncomes) extraIncomes.value = parsed.extraIncomes;
+                        if (parsed.loggedExpenses) loggedExpenses.value = parsed.loggedExpenses;
+                        if (parsed.archivedCycles) archivedCycles.value = parsed.archivedCycles;
+                        if (parsed.startDate) startDate.value = parsed.startDate;
+                        if (parsed.endDate) endDate.value = parsed.endDate;
+                        if (parsed.selectedPreset) selectedPreset.value = parsed.selectedPreset;
+                        if (parsed.activePresetRules) activePresetRules.value = parsed.activePresetRules;
+                        if (parsed.nextCutoffRule) nextCutoffRule.value = parsed.nextCutoffRule;
+                        if (parsed.nextExpectedBonus !== undefined) nextExpectedBonus.value = parsed.nextExpectedBonus;
+                        return true;
+                    }
+                } catch(e){
+                    console.error("Error loading app state", e);
+                }
+                return false;
+            };
+
+            watch([daysList, upcomingDaysList, categoryRollovers, extraIncomes, loggedExpenses, archivedCycles, selectedPreset, startDate, endDate, activePresetRules, nextCutoffRule, nextExpectedBonus], () => {
+                saveAppState();
+            }, { deep: true });
+
+            const generateDateRange = () => {
+                pushHistorySnapshot();
+                if (!startDate.value || !endDate.value) return;
+
+                const start = new Date(startDate.value);
+                const end = new Date(endDate.value);
+                const result = [];
+
+                let curr = new Date(start);
+                while (curr <= end) {
+                    const dateStr = curr.toISOString().split('T')[0];
+                    const dayOfWeek = curr.getDay(); 
+                    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+
+                    const dateDisplay = (curr.getMonth() + 1) + '/' + String(curr.getDate()).padStart(2, '0');
+                    const weekdayName = curr.toLocaleDateString('en-US', { weekday: 'short' });
+
+                    let type = isWeekend ? 'OFF' : 'OFFICE';
+
+                    const categories = {};
+                    categoryKeys.forEach(k => categories[k] = 0);
+
+                    if (type === 'OFFICE') {
+                        Object.assign(categories, activePresetRules.value.work);
+                    } else if (type === 'OFF') {
+                        categoryKeys.forEach(k => categories[k] = 0);
+                    }
+
+                    const lockedCats = {};
+                    categoryKeys.forEach(k => lockedCats[k] = false);
+
+                    result.push({
+                        dateStr,
+                        dateDisplay,
+                        weekdayName,
+                        isWeekend,
+                        type,
+                        categories,
+                        lockedCats
+                    });
+
+                    curr.setDate(curr.getDate() + 1);
+                }
+
+                daysList.value = result;
+                regenerateUpcomingDays();
+                saveAppState();
+            };
+
+            const regenerateUpcomingDays = () => {
+                pushHistorySnapshot();
+                const lastCurrentDate = endDate.value ? new Date(endDate.value) : new Date();
+                const upcomingStart = new Date(lastCurrentDate);
+                upcomingStart.setDate(upcomingStart.getDate() + 1);
+
+                const presetRules = presetDatabase[nextCutoffRule.value] || presetDatabase['11'];
+
+                const result = [];
+                let curr = new Date(upcomingStart);
+                
+                let addedDays = 0;
+                while (addedDays < 15) {
+                    const dateStr = curr.toISOString().split('T')[0];
+                    const dayOfWeek = curr.getDay();
+                    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+
+                    const dateDisplay = (curr.getMonth() + 1) + '/' + String(curr.getDate()).padStart(2, '0');
+                    const weekdayName = curr.toLocaleDateString('en-US', { weekday: 'short' });
+
+                    let type = isWeekend ? 'OFF' : 'OFFICE';
+
+                    const categories = {};
+                    categoryKeys.forEach(k => categories[k] = 0);
+
+                    if (type === 'OFFICE') {
+                        Object.assign(categories, presetRules.work);
+                    } else if (type === 'OFF') {
+                        categoryKeys.forEach(k => categories[k] = 0);
+                    }
+
+                    result.push({
+                        dateStr,
+                        dateDisplay,
+                        weekdayName,
+                        isWeekend,
+                        type,
+                        categories
+                    });
+
+                    curr.setDate(curr.getDate() + 1);
+                    addedDays++;
+                }
+
+                upcomingDaysList.value = result;
+                saveAppState();
+            };
+
+            const cycleUpcomingDayType = (upDay) => {
+                pushHistorySnapshot();
+                const types = ['OFFICE', 'WFH', 'LEAVE', 'OT', 'OFF'];
+                const nextIndex = (types.indexOf(upDay.type) + 1) % types.length;
+                upDay.type = types[nextIndex];
+
+                const presetRules = presetDatabase[nextCutoffRule.value] || presetDatabase['11'];
+
+                if (upDay.type === 'OFFICE') {
+                    upDay.categories = { ...presetRules.work };
+                } else if (upDay.type === 'WFH' || upDay.type === 'LEAVE') {
+                    upDay.categories = { ...presetRules.nonWork };
+                } else if (upDay.type === 'OT') {
+                    upDay.categories = { ...presetRules.work };
+                    upDay.categories.Allowance += 200;
+                    upDay.categories.PersonalSaving += 300;
+                } else if (upDay.type === 'OFF') {
+                    categoryKeys.forEach(k => upDay.categories[k] = 0);
+                }
+                saveAppState();
+            };
+
+            const batchSetUpcomingWeekdays = (type) => {
+                pushHistorySnapshot();
+                upcomingDaysList.value.forEach(d => {
+                    if (!d.isWeekend) {
+                        d.type = type;
+                        const presetRules = presetDatabase[nextCutoffRule.value] || presetDatabase['11'];
+                        if (type === 'OFFICE') d.categories = { ...presetRules.work };
+                        else if (type === 'WFH') d.categories = { ...presetRules.nonWork };
+                    }
+                });
+                showToast(`Set upcoming weekdays to ${type}`);
+            };
+
+            const batchSetUpcomingWeekends = (type) => {
+                pushHistorySnapshot();
+                upcomingDaysList.value.forEach(d => {
+                    if (d.isWeekend) {
+                        d.type = type;
+                        if (type === 'OFF') categoryKeys.forEach(k => d.categories[k] = 0);
+                    }
+                });
+                showToast(`Set upcoming weekends to ${type}`);
+            };
+
+            const promptAndRegenerateDates = () => {
+                generateDateRange();
+                showToast('Regenerated date range');
+            };
+
+            const selectPreset = (key) => {
+                pushHistorySnapshot();
+                selectedPreset.value = key;
+                activePresetRules.value = JSON.parse(JSON.stringify(presetDatabase[key]));
+                generateDateRange();
+                showToast(`Loaded ${key} Days Work Cutoff Preset`);
+            };
+
+            const presetTargetRate = computed(() => {
+                return activePresetRules.value.targetRate || 1640;
+            });
+
+            const onDayTypeChange = (day) => {
+                pushHistorySnapshot();
+                if (day.type === 'OFFICE') {
+                    day.categories = { ...activePresetRules.value.work };
+                } else if (day.type === 'WFH' || day.type === 'LEAVE') {
+                    day.categories = { ...activePresetRules.value.nonWork };
+                } else if (day.type === 'OT') {
+                    day.categories = { ...activePresetRules.value.work };
+                    day.categories.Allowance += 200;
+                    day.categories.PersonalSaving += 300;
+                } else if (day.type === 'OFF') {
+                    categoryKeys.forEach(k => day.categories[k] = 0);
+                }
+                saveAppState();
+            };
+
+            const cycleDayType = (day) => {
+                const types = ['OFFICE', 'WFH', 'LEAVE', 'OT', 'OFF'];
+                const nextIndex = (types.indexOf(day.type) + 1) % types.length;
+                day.type = types[nextIndex];
+                onDayTypeChange(day);
+            };
+
+            const toggleCatLock = (day, catKey) => {
+                if (day.type === 'OFF') return;
+                pushHistorySnapshot();
+                day.lockedCats[catKey] = !day.lockedCats[catKey];
+                saveAppState();
+            };
+
+            const onCategoryInput = (day, editedCatKey) => {
+                if (day.type === 'OFF') return;
+
+                const targetTotal = presetTargetRate.value;
+                const unlockedKeys = categoryKeys.filter(k => k !== editedCatKey && !day.lockedCats[k]);
+
+                if (unlockedKeys.length === 0) return;
+
+                let fixedSum = day.categories[editedCatKey];
+                categoryKeys.forEach(k => {
+                    if (k !== editedCatKey && day.lockedCats[k]) {
+                        fixedSum += (day.categories[k] || 0);
+                    }
+                });
+
+                const remainingToDistribute = targetTotal - fixedSum;
+                if (remainingToDistribute <= 0) return;
+
+                const share = Math.floor(remainingToDistribute / unlockedKeys.length);
+                let remainder = remainingToDistribute % unlockedKeys.length;
+
+                unlockedKeys.forEach(k => {
+                    day.categories[k] = share + (remainder > 0 ? 1 : 0);
+                    if (remainder > 0) remainder--;
+                });
+                saveAppState();
+            };
+
+            const applyDayRulesToSameType = (sourceDay) => {
+                if (!sourceDay || sourceDay.type === 'OFF') return;
+                pushHistorySnapshot();
+                daysList.value.forEach(d => {
+                    if (d.type === sourceDay.type) {
+                        d.categories = { ...sourceDay.categories };
+                    }
+                });
+                showToast(`Applied rules to all ${sourceDay.type} days`);
+                saveAppState();
+            };
+
+            const batchSetWeekdays = (type) => {
+                pushHistorySnapshot();
+                daysList.value.forEach(d => {
+                    if (!d.isWeekend) {
+                        d.type = type;
+                        onDayTypeChange(d);
+                    }
+                });
+                showToast(`Set weekdays to ${type}`);
+            };
+
+            const batchSetWeekends = (type) => {
+                pushHistorySnapshot();
+                daysList.value.forEach(d => {
+                    if (d.isWeekend) {
+                        d.type = type;
+                        onDayTypeChange(d);
+                    }
+                });
+                showToast(`Set weekends to ${type}`);
+            };
+
+            const getDailySum = (day) => {
+                if (!day || day.type === 'OFF') return 0;
+                return Object.values(day.categories).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+            };
+
+            const totalRolloverSum = computed(() => {
+                return Object.values(categoryRollovers.value).reduce((a, b) => a + (Number(b) || 0), 0);
+            });
+
+            const totalCutoffSalaryBudget = computed(() => {
+                return daysList.value.reduce((acc, day) => acc + getDailySum(day), 0);
+            });
+
+            const totalExtraIncome = computed(() => {
+                return extraIncomes.value.reduce((acc, item) => acc + (Number(item.amount) || 0), 0);
+            });
+
+            const grandTotalAvailableFunds = computed(() => {
+                return totalRolloverSum.value + totalCutoffSalaryBudget.value + totalExtraIncome.value;
+            });
+
+            const baseCategoryTotals = computed(() => {
+                const totals = {};
+                categoryKeys.forEach(k => totals[k] = 0);
+                daysList.value.forEach(day => {
+                    if (day.type !== 'OFF') {
+                        categoryKeys.forEach(k => {
+                            totals[k] += (Number(day.categories[k]) || 0);
+                        });
+                    }
+                });
+                return totals;
+            });
+
+            const bonusCategoryTotals = computed(() => {
+                const totals = {};
+                categoryKeys.forEach(k => totals[k] = 0);
+                extraIncomes.value.forEach(item => {
+                    const target = item.allocation || 'PersonalSaving';
+                    if (totals[target] !== undefined) {
+                        totals[target] += (Number(item.amount) || 0);
+                    }
+                });
+                return totals;
+            });
+
+            const finalCategoryTotals = computed(() => {
+                const totals = {};
+                categoryKeys.forEach(k => {
+                    totals[k] = (baseCategoryTotals.value[k] || 0) + 
+                                (Number(categoryRollovers.value[k]) || 0) + 
+                                (bonusCategoryTotals.value[k] || 0);
+                });
+                return totals;
+            });
+
+            const spentPerCategory = computed(() => {
+                const spent = {};
+                categoryKeys.forEach(k => spent[k] = 0);
+                loggedExpenses.value.forEach(exp => {
+                    if (spent[exp.category] !== undefined) {
+                        spent[exp.category] += (Number(exp.amount) || 0);
+                    }
+                });
+                return spent;
+            });
+
+            const totalSpentAmount = computed(() => {
+                return Object.values(spentPerCategory.value).reduce((a, b) => a + b, 0);
+            });
+
+            const netCategoryTotals = computed(() => {
+                const net = {};
+                categoryKeys.forEach(k => {
+                    net[k] = (finalCategoryTotals.value[k] || 0) - (spentPerCategory.value[k] || 0);
+                });
+                return net;
+            });
+
+            const zeroAllRollovers = () => {
+                pushHistorySnapshot();
+                categoryKeys.forEach(k => categoryRollovers.value[k] = 0);
+                showToast('Set all rollover balances to ₱0');
+                saveAppState();
+            };
+
+            const autoApplyCarryoverFromPrevious = () => {
+                pushHistorySnapshot();
+                categoryKeys.forEach(k => {
+                    categoryRollovers.value[k] = netCategoryTotals.value[k] || 0;
+                });
+                showToast('Auto-applied unspent balances into rollover starting balances!');
+                saveAppState();
+            };
+
+            const totalLiquidRemaining = computed(() => {
+                return (netCategoryTotals.value.Allowance || 0) +
+                       (netCategoryTotals.value.PersonalSaving || 0) +
+                       (netCategoryTotals.value.FutureSavings || 0) +
+                       (netCategoryTotals.value.MajorDate || 0) +
+                       (netCategoryTotals.value.Utilities || 0) +
+                       (netCategoryTotals.value.Expenses || 0) +
+                       (netCategoryTotals.value.Phone || 0);
+            });
+
+            // ================= UPCOMING CUTOFF DYNAMIC CALCULATIONS =================
+            const upcomingCutoffCalculatedSalary = computed(() => {
+                return upcomingDaysList.value.reduce((acc, day) => acc + getDailySum(day), 0);
+            });
+
+            const upcomingCategoryTotals = computed(() => {
+                const totals = {};
+                categoryKeys.forEach(k => totals[k] = 0);
+                upcomingDaysList.value.forEach(day => {
+                    if (day.type !== 'OFF') {
+                        categoryKeys.forEach(k => {
+                            totals[k] += (Number(day.categories[k]) || 0);
+                        });
+                    }
+                });
+                return totals;
+            });
+
+            const projectedCategoryTotals = computed(() => {
+                const projected = {};
+                categoryKeys.forEach(k => {
+                    const unspentCurrent = netCategoryTotals.value[k] || 0;
+                    const nextBase = upcomingCategoryTotals.value[k] || 0;
+                    projected[k] = unspentCurrent + nextBase;
+                });
+                if (nextExpectedBonus.value > 0) {
+                    projected['PersonalSaving'] += (Number(nextExpectedBonus.value) || 0);
+                }
+                return projected;
+            });
+
+            const projectedNextCutoffLiquid = computed(() => {
+                return (projectedCategoryTotals.value.Allowance || 0) +
+                       (projectedCategoryTotals.value.PersonalSaving || 0) +
+                       (projectedCategoryTotals.value.FutureSavings || 0) +
+                       (projectedCategoryTotals.value.MajorDate || 0) +
+                       (projectedCategoryTotals.value.Utilities || 0) +
+                       (projectedCategoryTotals.value.Expenses || 0) +
+                       (projectedCategoryTotals.value.Phone || 0);
+            });
+
+            const projectedNextMP2 = computed(() => {
+                return projectedCategoryTotals.value.MP2 || 0;
+            });
+
+            const bankAllocations = computed(() => {
+                const budgeted = finalCategoryTotals.value;
+                const spent = spentPerCategory.value;
+                const net = netCategoryTotals.value;
+
+                return {
+                    landBank: {
+                        budgeted: budgeted.Allowance || 0,
+                        spent: spent.Allowance || 0,
+                        remaining: net.Allowance || 0
+                    },
+                    goTyme: {
+                        budgeted: (budgeted.PersonalSaving || 0) + (budgeted.FutureSavings || 0),
+                        spent: (spent.PersonalSaving || 0) + (spent.FutureSavings || 0),
+                        remaining: (net.PersonalSaving || 0) + (net.FutureSavings || 0)
+                    },
+                    mariBank: {
+                        budgeted: (budgeted.MajorDate || 0) + (budgeted.Utilities || 0) + (budgeted.Expenses || 0) + (budgeted.Phone || 0),
+                        spent: (spent.MajorDate || 0) + (spent.Utilities || 0) + (spent.Expenses || 0) + (spent.Phone || 0),
+                        remaining: (net.MajorDate || 0) + (net.Utilities || 0) + (net.Expenses || 0) + (net.Phone || 0)
+                    },
+                    mp2: {
+                        budgeted: budgeted.MP2 || 0,
+                        spent: 0,
+                        remaining: net.MP2 || 0
+                    }
+                };
+            });
+
+            const getBankForCategory = (cat) => {
+                switch(cat) {
+                    case 'Allowance': return 'LandBank';
+                    case 'PersonalSaving': 
+                    case 'FutureSavings': return 'GoTyme Bank';
+                    case 'MajorDate':
+                    case 'Utilities':
+                    case 'Expenses':
+                    case 'Phone': return 'MariBank';
+                    case 'MP2': return 'Pag-IBIG MP2 (🔒 Locked)';
+                    default: return 'Bank';
+                }
+            };
+
+            const openExpenseModal = () => { showExpenseModal.value = true; };
+            const closeExpenseModal = () => { showExpenseModal.value = false; };
+
+            const submitExpenseEntry = () => {
+                const finalAmt = parsedExpenseAmount.value;
+                if (!expenseForm.value.title || finalAmt === null || finalAmt <= 0) {
+                    showToast('Please enter a valid title and amount / math expression');
+                    return;
+                }
+
+                if (expenseForm.value.category === 'MP2') {
+                    showToast('🔒 Pag-IBIG MP2 is a locked 5-year investment. Expenses cannot be logged against it.');
+                    return;
+                }
+
+                pushHistorySnapshot();
+
+                loggedExpenses.value.unshift({
+                    id: Date.now(),
+                    title: expenseForm.value.title,
+                    amount: Number(finalAmt),
+                    category: expenseForm.value.category,
+                    date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                });
+
+                expenseForm.value = { title: '', amountExpr: '', category: 'Allowance' };
+                closeExpenseModal();
+                showToast(`Logged ₱${formatMoney(finalAmt)} expense!`);
+                saveAppState();
+            };
+
+            const openEditExpenseModal = (exp) => {
+                editExpenseForm.value = {
+                    id: exp.id,
+                    title: exp.title,
+                    amountExpr: String(exp.amount),
+                    category: exp.category,
+                    date: exp.date
+                };
+                showEditExpenseModal.value = true;
+            };
+
+            const closeEditExpenseModal = () => {
+                showEditExpenseModal.value = false;
+            };
+
+            const submitEditExpense = () => {
+                const finalAmt = parsedEditExpenseAmount.value;
+                if (!editExpenseForm.value.title || finalAmt === null || finalAmt <= 0) {
+                    showToast('Please enter a valid title and amount / math expression');
+                    return;
+                }
+
+                if (editExpenseForm.value.category === 'MP2') {
+                    showToast('🔒 Pag-IBIG MP2 is a locked 5-year investment. Expenses cannot be logged against it.');
+                    return;
+                }
+
+                pushHistorySnapshot();
+
+                const index = loggedExpenses.value.findIndex(e => e.id === editExpenseForm.value.id);
+                if (index !== -1) {
+                    loggedExpenses.value[index] = {
+                        id: editExpenseForm.value.id,
+                        title: editExpenseForm.value.title,
+                        amount: Number(finalAmt),
+                        category: editExpenseForm.value.category,
+                        date: editExpenseForm.value.date
+                    };
+                }
+
+                closeEditExpenseModal();
+                showToast('Updated expense entry!');
+                saveAppState();
+            };
+
+            const promptDeleteExpense = (exp) => {
+                confirmDialogData.value = {
+                    title: 'Delete Spent Expense?',
+                    message: `Are you sure you want to delete "${exp.title}" (₱${formatMoney(exp.amount)})? This will restore funds back to ${formatCatName(exp.category)}.`,
+                    action: () => {
+                        deleteExpense(exp.id);
+                    }
+                };
+                showConfirmModal.value = true;
+            };
+
+            const deleteExpense = (id) => {
+                pushHistorySnapshot();
+                loggedExpenses.value = loggedExpenses.value.filter(e => e.id !== id);
+                showToast('Removed expense entry');
+                saveAppState();
+            };
+
+            // OT / BONUS LEDGER ACTIONS
+            const openBonusModal = () => { showBonusModal.value = true; };
+            const closeBonusModal = () => { showBonusModal.value = false; };
+
+            const submitBonusEntry = () => {
+                if (!newBonusForm.value.title || !newBonusForm.value.amount || newBonusForm.value.amount <= 0) {
+                    showToast('Please specify a title and valid amount');
+                    return;
+                }
+
+                pushHistorySnapshot();
+
+                extraIncomes.value.unshift({
+                    id: Date.now(),
+                    title: newBonusForm.value.title,
+                    amount: Number(newBonusForm.value.amount),
+                    allocation: newBonusForm.value.allocation,
+                    date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                });
+
+                newBonusForm.value = { title: '', amount: null, allocation: 'PersonalSaving' };
+                closeBonusModal();
+                showToast('Added OT / Bonus Income Entry!');
+                saveAppState();
+            };
+
+            const openEditBonusModal = (item) => {
+                editBonusForm.value = {
+                    id: item.id,
+                    title: item.title,
+                    amount: item.amount,
+                    allocation: item.allocation,
+                    date: item.date
+                };
+                showEditBonusModal.value = true;
+            };
+
+            const closeEditBonusModal = () => { showEditBonusModal.value = false; };
+
+            const submitEditBonus = () => {
+                if (!editBonusForm.value.title || !editBonusForm.value.amount || editBonusForm.value.amount <= 0) {
+                    showToast('Please specify a valid title and amount');
+                    return;
+                }
+
+                pushHistorySnapshot();
+
+                const index = extraIncomes.value.findIndex(b => b.id === editBonusForm.value.id);
+                if (index !== -1) {
+                    extraIncomes.value[index] = {
+                        id: editBonusForm.value.id,
+                        title: editBonusForm.value.title,
+                        amount: Number(editBonusForm.value.amount),
+                        allocation: editBonusForm.value.allocation,
+                        date: editBonusForm.value.date
+                    };
+                }
+
+                closeEditBonusModal();
+                showToast('Updated OT / Bonus entry!');
+                saveAppState();
+            };
+
+            const promptDeleteBonus = (item) => {
+                confirmDialogData.value = {
+                    title: 'Delete OT / Bonus Income?',
+                    message: `Are you sure you want to delete "${item.title}" (+₱${formatMoney(item.amount)})? You can undo this edit using the Undo button or Ctrl+Z.`,
+                    action: () => {
+                        deleteBonusEntry(item.id);
+                    }
+                };
+                showConfirmModal.value = true;
+            };
+
+            const deleteBonusEntry = (id) => {
+                pushHistorySnapshot();
+                extraIncomes.value = extraIncomes.value.filter(b => b.id !== id);
+                showToast('Removed OT / Bonus entry (Undoable)');
+                saveAppState();
+            };
+
+            const openNewCycleModal = () => {
+                categoryKeys.forEach(cat => {
+                    newCycleForm.value.categoryCarryovers[cat] = netCategoryTotals.value[cat] || 0;
+                });
+                showNewCycleModal.value = true;
+            };
+
+            const closeNewCycleModal = () => { showNewCycleModal.value = false; };
+
+            const executeNewCycleWizard = () => {
+                pushHistorySnapshot();
+
+                const archiveEntry = {
+                    range: `${startDate.value} to ${endDate.value}`,
+                    presetKey: selectedPreset.value,
+                    archivedAt: new Date().toLocaleDateString(),
+                    totalRollover: totalRolloverSum.value,
+                    salary: totalCutoffSalaryBudget.value,
+                    extra: totalExtraIncome.value,
+                    grandTotal: grandTotalAvailableFunds.value
+                };
+
+                archivedCycles.value.unshift(archiveEntry);
+
+                categoryKeys.forEach(cat => {
+                    categoryRollovers.value[cat] = Number(newCycleForm.value.categoryCarryovers[cat]) || 0;
+                });
+
+                startDate.value = newCycleForm.value.startDate;
+                endDate.value = newCycleForm.value.endDate;
+                selectedPreset.value = newCycleForm.value.presetKey;
+                extraIncomes.value = [];
+                loggedExpenses.value = []; 
+
+                selectPreset(selectedPreset.value);
+                closeNewCycleModal();
+                showToast('Archived past cutoff & initialized new payday budget!');
+            };
+
+            const deleteArchivedCycle = (idx) => {
+                pushHistorySnapshot();
+                archivedCycles.value.splice(idx, 1);
+                saveAppState();
+            };
+
+            const runConfirmAction = () => {
+                if (confirmDialogData.value.action) {
+                    confirmDialogData.value.action();
+                }
+                showConfirmModal.value = false;
+            };
+
+            const triggerManualSave = () => {
+                saveAppState();
+                showToast('💾 Saved budget state!');
+            };
+
+            const exportBackupJSON = () => {
+                const data = {
+                    daysList: daysList.value,
+                    upcomingDaysList: upcomingDaysList.value,
+                    categoryRollovers: categoryRollovers.value,
+                    extraIncomes: extraIncomes.value,
+                    loggedExpenses: loggedExpenses.value,
+                    archivedCycles: archivedCycles.value,
+                    startDate: startDate.value,
+                    endDate: endDate.value,
+                    selectedPreset: selectedPreset.value,
+                    activePresetRules: activePresetRules.value,
+                    nextCutoffRule: nextCutoffRule.value,
+                    nextExpectedBonus: nextExpectedBonus.value,
+                    exportDate: new Date().toISOString()
+                };
+
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Thirdy_Budget_Backup_${startDate.value}_to_${endDate.value}.json`;
+                a.click();
+                showToast('Exported backup file (.json)');
+            };
+
+            const exportCSV = () => {
+                let csvContent = "data:text/csv;charset=utf-8,";
+                csvContent += "Date,Day Status,Allowance,Personal Saving,Future Savings,Major Date,Utilities,Expenses,Phone,MP2 Savings,Daily Total\n";
+
+                daysList.value.forEach(day => {
+                    const row = [
+                        day.dateDisplay,
+                        day.type,
+                        day.categories.Allowance || 0,
+                        day.categories.PersonalSaving || 0,
+                        day.categories.FutureSavings || 0,
+                        day.categories.MajorDate || 0,
+                        day.categories.Utilities || 0,
+                        day.categories.Expenses || 0,
+                        day.categories.Phone || 0,
+                        day.categories.MP2 || 0,
+                        getDailySum(day)
+                    ].join(",");
+                    csvContent += row + "\n";
+                });
+
+                const encodedUri = encodeURI(csvContent);
+                const link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", `Thirdy_Budget_Sheet_${startDate.value}.csv`);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showToast('Exported CSV budget sheet!');
+            };
+
+            const openImportModal = () => { showImportModal.value = true; };
+            const closeImportModal = () => { showImportModal.value = false; };
+
+            const executeImportBackup = () => {
+                const file = jsonFileInput.value?.files[0];
+                if (!file) {
+                    showToast('Please select a JSON file to import');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        pushHistorySnapshot();
+                        const parsed = JSON.parse(e.target.result);
+                        if (parsed.daysList) daysList.value = parsed.daysList;
+                        if (parsed.upcomingDaysList) upcomingDaysList.value = parsed.upcomingDaysList;
+                        if (parsed.categoryRollovers) categoryRollovers.value = parsed.categoryRollovers;
+                        if (parsed.extraIncomes) extraIncomes.value = parsed.extraIncomes;
+                        if (parsed.loggedExpenses) loggedExpenses.value = parsed.loggedExpenses;
+                        if (parsed.archivedCycles) archivedCycles.value = parsed.archivedCycles;
+                        if (parsed.startDate) startDate.value = parsed.startDate;
+                        if (parsed.endDate) endDate.value = parsed.endDate;
+                        if (parsed.selectedPreset) selectedPreset.value = parsed.selectedPreset;
+                        if (parsed.activePresetRules) activePresetRules.value = parsed.activePresetRules;
+                        if (parsed.nextCutoffRule) nextCutoffRule.value = parsed.nextCutoffRule;
+                        if (parsed.nextExpectedBonus !== undefined) nextExpectedBonus.value = parsed.nextExpectedBonus;
+
+                        closeImportModal();
+                        showToast('Successfully imported JSON backup data!');
+                        saveAppState();
+                    } catch(err) {
+                        showToast('Error reading backup JSON file');
+                    }
+                };
+                reader.readAsText(file);
+            };
+
+            const officeDaysCount = computed(() => daysList.value.filter(d => d.type === 'OFFICE').length);
+            const wfhDaysCount = computed(() => daysList.value.filter(d => d.type === 'WFH').length);
+            const leaveDaysCount = computed(() => daysList.value.filter(d => d.type === 'LEAVE').length);
+            const otDaysCount = computed(() => daysList.value.filter(d => d.type === 'OT').length);
+            const offDaysCount = computed(() => daysList.value.filter(d => d.type === 'OFF').length);
+
+            const formatMoney = (val) => {
+                return (Number(val) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            };
+
+            const formatCatName = (key) => {
+                const names = {
+                    Allowance: 'Allowance',
+                    PersonalSaving: 'Personal Saving',
+                    FutureSavings: 'Future Savings',
+                    MajorDate: 'Major Date',
+                    Utilities: 'Utilities',
+                    Expenses: 'Expenses',
+                    Phone: 'Phone',
+                    MP2: 'MP2 Savings'
+                };
+                return names[key] || key;
+            };
+
+            const getDayTypeBadgeStyle = (type) => {
+                switch(type) {
+                    case 'OFFICE': return 'bg-dlsu-100 text-dlsu-900';
+                    case 'WFH': return 'bg-navy-100 text-navy-900';
+                    case 'LEAVE': return 'bg-purple-100 text-purple-900';
+                    case 'OT': return 'bg-mustard-100 text-mustard-900';
+                    default: return 'bg-slate-200 text-slate-700';
+                }
+            };
+
+            const showToast = (msg) => {
+                toastMessage.value = msg;
+                setTimeout(() => { toastMessage.value = ''; }, 3000);
+            };
+
+            const resetPresetToDefaults = () => {
+                pushHistorySnapshot();
+                activePresetRules.value = JSON.parse(JSON.stringify(presetDatabase[selectedPreset.value]));
+                generateDateRange();
+                showToast('Restored system defaults');
+            };
+
+            const updatePresetRules = (mode) => {
+                const newSum = Object.values(activePresetRules.value[mode]).reduce((a, b) => a + (Number(b) || 0), 0);
+                activePresetRules.value.targetRate = newSum;
+            };
+
+            const handleKeydown = (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
+                    if (e.shiftKey) {
+                        redo();
+                    } else {
+                        undo();
+                    }
+                } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'y') {
+                    redo();
+                }
+            };
+
+            onMounted(() => {
+                const loaded = loadAppState();
+                if (!loaded || !daysList.value || daysList.value.length === 0) {
+                    generateDateRange();
+                }
+                window.addEventListener('keydown', handleKeydown);
+            });
+
+            onBeforeUnmount(() => {
+                window.removeEventListener('keydown', handleKeydown);
+            });
+
+            return {
+                toastMessage,
+                currentTab,
+                lastSavedTime,
+                undoStack,
+                redoStack,
+                canUndo,
+                canRedo,
+                undo,
+                redo,
+                showToolsSheet,
+                showBonusModal,
+                showEditBonusModal,
+                showNewCycleModal,
+                showExpenseModal,
+                showEditExpenseModal,
+                showImportModal,
+                showConfirmModal,
+                jsonFileInput,
+                confirmDialogData,
+                categoryKeys,
+                spendableCategoryKeys,
+                categoryEmojis,
+                categoryRollovers,
+                extraIncomes,
+                loggedExpenses,
+                archivedCycles,
+                selectedPreset,
+                startDate,
+                endDate,
+                nextCutoffRule,
+                nextExpectedBonus,
+                upcomingDaysList,
+                evaluateMathExpr,
+                newBonusForm,
+                editBonusForm,
+                expenseForm,
+                editExpenseForm,
+                parsedExpenseAmount,
+                parsedEditExpenseAmount,
+                newCycleForm,
+                activePresetRules,
+                daysList,
+                presetTargetRate,
+                promptAndRegenerateDates,
+                selectPreset,
+                onDayTypeChange,
+                cycleDayType,
+                cycleUpcomingDayType,
+                batchSetUpcomingWeekdays,
+                batchSetUpcomingWeekends,
+                toggleCatLock,
+                onCategoryInput,
+                applyDayRulesToSameType,
+                batchSetWeekdays,
+                batchSetWeekends,
+                getDailySum,
+                totalRolloverSum,
+                totalCutoffSalaryBudget,
+                totalExtraIncome,
+                grandTotalAvailableFunds,
+                baseCategoryTotals,
+                bonusCategoryTotals,
+                finalCategoryTotals,
+                spentPerCategory,
+                totalSpentAmount,
+                netCategoryTotals,
+                zeroAllRollovers,
+                autoApplyCarryoverFromPrevious,
+                totalLiquidRemaining,
+                upcomingCutoffCalculatedSalary,
+                upcomingCategoryTotals,
+                projectedCategoryTotals,
+                projectedNextCutoffLiquid,
+                projectedNextMP2,
+                bankAllocations,
+                getBankForCategory,
+                openExpenseModal,
+                closeExpenseModal,
+                submitExpenseEntry,
+                openEditExpenseModal,
+                closeEditExpenseModal,
+                submitEditExpense,
+                promptDeleteExpense,
+                deleteExpense,
+                openBonusModal,
+                closeBonusModal,
+                submitBonusEntry,
+                openEditBonusModal,
+                closeEditBonusModal,
+                submitEditBonus,
+                promptDeleteBonus,
+                deleteBonusEntry,
+                openNewCycleModal,
+                closeNewCycleModal,
+                executeNewCycleWizard,
+                deleteArchivedCycle,
+                runConfirmAction,
+                triggerManualSave,
+                exportBackupJSON,
+                exportCSV,
+                openImportModal,
+                closeImportModal,
+                executeImportBackup,
+                officeDaysCount,
+                wfhDaysCount,
+                leaveDaysCount,
+                otDaysCount,
+                offDaysCount,
+                formatMoney,
+                formatCatName,
+                getDayTypeBadgeStyle,
+                resetPresetToDefaults,
+                updatePresetRules,
+                pushHistorySnapshot,
+                regenerateUpcomingDays
+            };
+        }
+    }).mount('#app');
+</script>
+</body>
+</html>
